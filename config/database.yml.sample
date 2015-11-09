@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: so_dba
+  password: 123456
+
+
+development:
+  <<: *default
+  database: so_dev
+
+test:
+  <<: *default
+  database: so_test
+
