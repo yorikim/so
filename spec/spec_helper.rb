@@ -9,13 +9,15 @@ require "shoulda-matchers"
     # Choose one or more libraries:
     with.library :active_record
     with.library :active_model
-    #with.library :action_controller
+    with.library :action_controller
     # Or, choose the following (which implies all of the above):
     #with.library :rails
   end
 end
 
 RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
