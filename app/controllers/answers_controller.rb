@@ -1,10 +1,6 @@
 class AnswersController < ApplicationController
   before_filter :load_question
 
-  def index
-    @answers = @question.answers
-  end
-
   def new
     @answer = @question.answers.new
   end
