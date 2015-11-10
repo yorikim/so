@@ -10,4 +10,9 @@ FactoryGirl.define do
     title "MyString 2"
     body "MyText 2"
   end
+
+  factory :invalid_answer, class: 'Answer' do
+    title nil
+    body nil
+  end
 end
