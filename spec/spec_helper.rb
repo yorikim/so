@@ -1,6 +1,8 @@
 require "bundler/setup"
 ::Bundler.require(:default, :test)
 
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
 require "shoulda-matchers"
 ::Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -17,6 +19,9 @@ end
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
+  config.include Devise::TestHelpers, type: :controller
+
+  config.include  FeatureMacros, type: :feature
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
