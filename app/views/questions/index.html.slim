@@ -1,5 +1,8 @@
 = link_to 'Ask question', new_question_path
 
+- flash.each do |name, msg|
+  = content_tag :div, msg, class: name
+
 br
 
 - @questions.each do |question|

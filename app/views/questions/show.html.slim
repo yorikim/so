@@ -1,11 +1,11 @@
-h2 =@question.title
-.content =@question.body
+h2 = @question.title
+.content = @question.body
 
 - flash.each do |name, msg|
   = content_tag :div, msg, class: name
 
 - @question.answers.each do |answer|
-  h3 =answer.title
+  h3 = answer.title
   .answer-content =answer.body
 
 = link_to 'Answer', new_question_answer_path(@question)
