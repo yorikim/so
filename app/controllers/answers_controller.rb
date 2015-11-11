@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create]
   before_filter :load_question
 
   def new

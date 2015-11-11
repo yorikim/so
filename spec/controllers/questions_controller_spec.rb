@@ -31,35 +31,43 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { get :new }
+    context 'logged user' do
+      login_user
 
-    it 'assings a new question to @question' do
-      expect(assigns(:question)).to be_a_new(Question)
+      before { get :new }
+
+      it 'assings a new question to @question' do
+        expect(assigns(:question)).to be_a_new(Question)
+      end
+
+      it { should render_template :new }
     end
-
-    it { should render_template :new }
   end
 
   describe 'POST #create' do
-    context 'with valid attributes' do
-      it 'creates a new question' do
-        expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+    context 'logged user' do
+      login_user
+
+      context 'with valid attributes' do
+        it 'creates a new question' do
+          expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+        end
+
+        it 'redirects to view #show' do
+          post :create, question: attributes_for(:question)
+          should redirect_to question_path(assigns(:question))
+        end
       end
 
-      it 'redirects to view #show' do
-        post :create, question: attributes_for(:question)
-        should redirect_to question_path(assigns(:question))
-      end
-    end
+      context 'with invalid attributes' do
+        it 'does not create a new question' do
+          expect { post :create, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
+        end
 
-    context 'with invalid attributes' do
-      it 'does not create a new question' do
-        expect { post :create, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
-      end
-
-      it 're-render view #new' do
-        post :create, question: attributes_for(:invalid_question)
-        should render_template :new
+        it 're-render view #new' do
+          post :create, question: attributes_for(:invalid_question)
+          should render_template :new
+        end
       end
     end
   end

@@ -5,18 +5,21 @@ feature 'User can answer to question', %q{
         As a user
         I want to answer to question
 } do
+  given!(:user) { create(:user) }
   given!(:question) { create(:question) }
 
-  scenario 'User create answer to question' do
-    visit question_path(question)
+  scenario 'Logged user is trying to create answer to question' do
+    sign_in user
 
-    click_on 'Answer'
-
-    fill_in 'answer_title', with: 'answer title'
-    fill_in 'answer_body',  with: 'answer body'
-
-    click_on 'Create'
+    create_answer question, 'Test answer title', 'Test answer body'
 
     expect(page).to have_content 'Your answer successfully created.'
+  end
+
+  scenario 'Anonymous user is trying to create answer to question' do
+    visit question_path(question)
+    click_on 'Answer'
+
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end

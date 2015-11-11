@@ -16,18 +16,25 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { get :new, question_id: question }
+    context 'logged user' do
+      login_user
 
-    it 'assings a new answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
+      before { get :new, question_id: question }
+
+      it 'assings a new answer to @answer' do
+        expect(assigns(:answer)).to be_a_new(Answer)
+      end
+
+      it { should render_template :new }
     end
-
-    it { should render_template :new }
   end
 
   describe 'POST #create' do
+    login_user
+
     context 'with valid attributes' do
       it 'creates a new answer to the question' do
+
         expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
       end
 
