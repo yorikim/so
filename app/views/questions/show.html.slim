@@ -9,3 +9,6 @@ h2 = @question.title
   .answer-content =answer.body
 
 = link_to 'Answer', new_question_answer_path(@question)
+
+- if current_user and current_user.questions.include?(@question)
+  = link_to 'Remove question', question_path(@question), :method => :delete

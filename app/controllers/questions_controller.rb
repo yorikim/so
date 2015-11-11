@@ -23,6 +23,13 @@ class QuestionsController < ApplicationController
     @question = Question.includes(:answers).find(params[:id])
   end
 
+  def destroy
+    @question = current_user.questions.find(params[:id])
+
+    @question.destroy
+    redirect_to questions_path, notice: 'Your question successfully removed.'
+  end
+
   private
 
   def question_params
@@ -31,4 +38,5 @@ class QuestionsController < ApplicationController
         :body,
     )
   end
+
 end

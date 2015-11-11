@@ -3,6 +3,7 @@ FactoryGirl.define do
   sequence(:answer_body)  { |n| "Answer body #{n}" }
 
   factory :answer do
+    user
     question
     title { generate(:answer_title) }
     body  { generate(:answer_body) }

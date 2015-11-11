@@ -16,17 +16,15 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
-    context 'logged user' do
-      login_user
+    login_user
 
-      before { get :new, question_id: question }
+    before { get :new, question_id: question }
 
-      it 'assings a new answer to @answer' do
-        expect(assigns(:answer)).to be_a_new(Answer)
-      end
-
-      it { should render_template :new }
+    it 'assings a new answer to @answer' do
+      expect(assigns(:answer)).to be_a_new(Answer)
     end
+
+    it { should render_template :new }
   end
 
   describe 'POST #create' do
@@ -34,7 +32,6 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'creates a new answer to the question' do
-
         expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
       end
 
@@ -57,4 +54,24 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  # describe 'DELETE #destroy' do
+  #   login_user(:user_with_questions)
+  #
+  #   let(:question) { @user.questions.first }
+  #   let(:answer) { question.answers.first }
+  #
+  #   it 'remove own answer' do
+  #     expect { delete :destroy, id: answer }.to change(@user, :count).by(-1)
+  #     should redirect_to questions_path
+  #   end
+  #
+  #   let(:another_user) { create(:user_with_questions) }
+  #   let(:foreign_question) { create(another_user.questions.first) }
+  #   let(:foreign_answer) { another_user.questions.first }
+  #
+  #   it 'not remove foreign question' do
+  #     expect { delete :destroy, id: foreign_answer }.to raise_exception(ActiveRecord::RecordNotFound)
+  #   end
+  # end
 end
