@@ -2,11 +2,12 @@ require 'rails_helper'
 
 feature 'Remove question' do
   given!(:current_user) { create(:user) }
-  given!(:question_of_current_user) { create(:question, user: current_user) }
+  given!(:own_question) { create(:question, user: current_user) }
 
   scenario 'Authenticated user is trying to remove own question' do
-    visit question_path(question_of_current_user)
+    sign_in(current_user)
 
+    visit question_path(own_question)
     click_on 'Remove question'
 
     expect(page).to have_content 'Your question successfully removed.'
@@ -14,10 +15,12 @@ feature 'Remove question' do
   end
 
   given!(:another_user) { create(:user) }
-  given!(:question_of_another_user) { create(:question, user: another_user) }
+  given!(:foreign_question) { create(:question, user: another_user) }
 
   scenario "Authenticated user can't remove foreign question" do
-    visit question_path(question_of_current_user)
+    sign_in(current_user)
+
+    visit question_path(foreign_question)
     expect(page).to_not have_content 'Remove question'
   end
 end
