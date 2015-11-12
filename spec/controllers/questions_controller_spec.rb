@@ -14,8 +14,9 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:answers) { create_list(:answer, 2) }
-    let(:question) { create(:question, answers: answers) }
+    let(:user) { create(:user_with_questions) }
+    let(:question) { user.questions.first }
+    let(:answers) { question.answers }
 
     before { get :show, id: question }
 
@@ -49,7 +50,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'creates a new question' do
-        expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+        expect { post :create, question: attributes_for(:question) }.to change(@user.questions, :count).by(1)
       end
 
       it 'redirects to view #show' do
@@ -71,16 +72,16 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    login_user
-    let!(:question) { create(:question, user: @user) }
+    login_user(:user_with_questions)
+    let(:question) { @user.questions.first }
 
     it 'remove own question' do
-      expect { delete :destroy, id: question}.to change(@user.questions, :count).by(-1)
+      expect { delete :destroy, id: question }.to change(@user.questions, :count).by(-1)
       should redirect_to questions_path
     end
 
-    let(:another_user) { create(:user) }
-    let!(:foreign_question) { create(:question, user: another_user) }
+    let!(:another_user) { create(:user_with_questions) }
+    let(:foreign_question) { another_user.questions.first }
 
     it 'not remove foreign question' do
       expect { delete :destroy, id: foreign_question }.to_not change(Question, :count)

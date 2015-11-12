@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question, user) }
+  # let(:user) { create(:user_with_questions) }
+  # let(:question) { user.questions.first }
+  let!(:question) { create(:question_with_answers) }
 
   describe 'GET #show' do
-    let(:answer) { create(:answer, question: question) }
+    let(:answer) { question.answers.first }
 
     before { get :show, question_id: question, id: answer }
 
@@ -16,7 +18,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
-    login_user
+    login_user :user_with_questions
 
     before { get :new, question_id: question }
 
@@ -28,7 +30,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
-    login_user
+    login_user :user_with_questions
 
     context 'with valid attributes' do
       it 'creates a new answer to the question' do
@@ -56,22 +58,21 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    login_user
-
-    let!(:question) { create(:question, user: @user) }
-    let!(:answer) { create(:answer, user: @user, question: question) }
+    login_user :user_with_questions
+    let!(:own_question) { @user.questions.first }
+    let(:own_answer) { own_question.answers.first }
 
     it 'remove own answer' do
-      expect { delete :destroy, question_id: question, id: answer }.to change(@user.answers, :count).by(-1)
-      should redirect_to question_path(question)
+      expect { delete :destroy, question_id: own_question, id: own_answer }.to change(own_question.answers, :count).by(-1)
+      should redirect_to question_path(own_question)
     end
 
-    let!(:another_user) { create(:user) }
-    let!(:foreign_question) { create(:question, user: another_user) }
-    let!(:foreign_answer) { create(:answer, user: another_user, question: foreign_question,) }
+    let!(:another_user) { create(:user_with_questions) }
+    let(:foreign_question) { another_user.questions.first }
+    let(:foreign_answer) { foreign_question.answers.first }
 
     it 'not remove foreign question' do
-      expect { delete :destroy, question_id: question, id: foreign_answer }.to_not change(Answer, :count)
+      expect { delete :destroy, question_id: foreign_question, id: foreign_answer }.to_not change(Answer, :count)
       should redirect_to question_path(foreign_question)
     end
   end
