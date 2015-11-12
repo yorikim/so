@@ -7,12 +7,6 @@ module FeatureMacros
     click_on 'Sign in'
   end
 
-  def sign_out
-    visit root_path
-
-    click_on 'Logout'
-  end
-
   def sign_up(email, password, password_confirmation)
     visit new_user_registration_path
 
