@@ -1,21 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  # let(:user) { create(:user_with_questions) }
-  # let(:question) { user.questions.first }
   let!(:question) { create(:question_with_answers) }
-
-  describe 'GET #show' do
-    let(:answer) { question.answers.first }
-
-    before { get :show, question_id: question, id: answer }
-
-    it 'assings the requested answer to @answer' do
-      expect(assigns(:answer)).to eq (answer)
-    end
-
-    it { should render_template :show }
-  end
 
   describe 'GET #new' do
     login_user :user_with_questions
@@ -37,11 +23,11 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to view #show' do
+      it 'redirects to view Questions#show' do
         post :create, question_id: question, answer: attributes_for(:answer)
 
         answer = assigns(:answer)
-        should redirect_to question_answer_path(question_id: answer.question_id, id: answer)
+        should redirect_to question_path(id: answer.question_id)
       end
     end
 

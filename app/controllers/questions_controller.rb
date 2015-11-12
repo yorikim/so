@@ -20,7 +20,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.includes(:answers).find(params[:id])
+    @question = Question.find(params[:id])
   end
 
   def destroy

@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy]
-  before_filter :load_question
+  before_action :load_question
 
   def new
     @answer = @question.answers.new
@@ -11,14 +11,10 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     if @answer.save
-      redirect_to [@question, @answer], notice: 'Your answer successfully created.'
+      redirect_to @question, notice: 'Your answer successfully created.'
     else
       render :new
     end
-  end
-
-  def show
-    @answer = @question.answers.find(params[:id])
   end
 
   def destroy

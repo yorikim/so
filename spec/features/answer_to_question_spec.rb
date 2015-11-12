@@ -11,7 +11,13 @@ feature 'User can answer to question', %q{
   scenario 'Logged user is trying to create answer to question' do
     sign_in user
 
-    create_answer question, 'Test answer title', 'Test answer body'
+    visit question_path(question)
+    click_on 'Answer'
+
+    fill_in 'answer_title', with: 'Test answer title'
+    fill_in 'answer_body', with: 'Test answer body'
+
+    click_on 'Create'
 
     expect(page).to have_content 'Your answer successfully created.'
   end

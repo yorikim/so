@@ -9,7 +9,14 @@ feature 'Create question', %q{
 
   scenario 'Logged user asks question' do
     sign_in user
-    create_question 'Test title', 'Test body'
+
+    visit questions_path
+
+    click_on 'Ask question'
+    fill_in 'question_title', with: 'Test title'
+    fill_in 'question_body',  with: 'Test body'
+
+    click_on 'Ask'
 
     expect(page).to have_content 'Your question successfully created.'
   end

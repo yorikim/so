@@ -4,11 +4,11 @@ h2 = @question.title
 - flash.each do |name, msg|
   = content_tag :div, msg, class: name
 
-- @question.answers.each do |answer|
+- @question.answers.find_each do |answer|
   h3 = answer.title
   .answer-content =answer.body
 
-  - if current_user and current_user.answers.include?(answer)
+  - if current_user and (current_user.id == answer.user_id)
     = link_to 'Remove answer', question_answer_path(@question, answer), :method => :delete
 
 = link_to 'Answer', new_question_answer_path(@question)
