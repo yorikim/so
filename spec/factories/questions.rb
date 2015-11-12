@@ -6,6 +6,16 @@ FactoryGirl.define do
     user
     title { generate(:question_title) }
     body { generate(:question_body) }
+
+    factory :question_with_answers do
+      transient do
+        answers_count 5
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:answer, evaluator.questions_count, user: user)
+      end
+    end
   end
 
   factory :invalid_question, class: 'Question' do

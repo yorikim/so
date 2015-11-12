@@ -71,20 +71,20 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:question) { create(:question) }
-    let(:user) { question.user }
-    login_user(user)
+    login_user
+    let!(:question) { create(:question, user: @user) }
 
     it 'remove own question' do
-      expect { delete :destroy, id: question}.to change(user.questions, :count).by(-1)
+      expect { delete :destroy, id: question}.to change(@user.questions, :count).by(-1)
       should redirect_to questions_path
     end
 
-    let(:another_user) { create(:user_with_questions) }
-    let(:foreign_question) { another_user.questions.first }
+    let(:another_user) { create(:user) }
+    let!(:foreign_question) { create(:question, user: another_user) }
 
     it 'not remove foreign question' do
-      expect { delete :destroy, id: foreign_question }.to raise_exception(ActiveRecord::RecordNotFound)
+      expect { delete :destroy, id: foreign_question }.to_not change(Question, :count)
+      should redirect_to questions_path
     end
   end
 end

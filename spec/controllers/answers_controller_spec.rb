@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
+  let(:question) { create(:question, user) }
 
   describe 'GET #show' do
     let(:answer) { create(:answer, question: question) }
@@ -55,23 +55,24 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  # describe 'DELETE #destroy' do
-  #   login_user(:user_with_questions)
-  #
-  #   let(:question) { @user.questions.first }
-  #   let(:answer) { question.answers.first }
-  #
-  #   it 'remove own answer' do
-  #     expect { delete :destroy, id: answer }.to change(@user, :count).by(-1)
-  #     should redirect_to questions_path
-  #   end
-  #
-  #   let(:another_user) { create(:user_with_questions) }
-  #   let(:foreign_question) { create(another_user.questions.first) }
-  #   let(:foreign_answer) { another_user.questions.first }
-  #
-  #   it 'not remove foreign question' do
-  #     expect { delete :destroy, id: foreign_answer }.to raise_exception(ActiveRecord::RecordNotFound)
-  #   end
-  # end
+  describe 'DELETE #destroy' do
+    login_user
+
+    let!(:question) { create(:question, user: @user) }
+    let!(:answer) { create(:answer, user: @user, question: question) }
+
+    it 'remove own answer' do
+      expect { delete :destroy, question_id: question, id: answer }.to change(@user.answers, :count).by(-1)
+      should redirect_to question_path(question)
+    end
+
+    let!(:another_user) { create(:user) }
+    let!(:foreign_question) { create(:question, user: another_user) }
+    let!(:foreign_answer) { create(:answer, user: another_user, question: foreign_question,) }
+
+    it 'not remove foreign question' do
+      expect { delete :destroy, question_id: question, id: foreign_answer }.to_not change(Answer, :count)
+      should redirect_to question_path(foreign_question)
+    end
+  end
 end

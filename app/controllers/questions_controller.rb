@@ -24,10 +24,15 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = current_user.questions.find(params[:id])
+    @question = current_user.questions.find_by(id: params[:id])
 
-    @question.destroy
-    redirect_to questions_path, notice: 'Your question successfully removed.'
+    notice = 'You have no authority to remove this question.'
+    if @question
+      @question.destroy
+      notice = 'Your question successfully removed.'
+    end
+
+    redirect_to questions_path, notice: notice
   end
 
   private
