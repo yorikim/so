@@ -1,5 +1,9 @@
 = form_for [@question, @answer] do |f|
-  = f.text_field :title
-  = f.text_field :body
+  .form-group
+    = f.label :title, 'Title'
+    = f.text_field :title, class: 'form-control', placeholder: 'Title'
+  .form-group
+    = f.label :body, 'Body'
+    = f.text_area :body, class: 'form-control', placeholder: 'Body'
 
-  = f.submit 'Create'
+  = f.submit 'Create', class: 'btn btn-secondary'
