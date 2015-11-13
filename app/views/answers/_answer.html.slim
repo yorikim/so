@@ -1,6 +1,7 @@
-.answer-container
-  .answer-content.answer-content-info =answer.body
+- unless answer.new_record?
+  .answer-container
+    .answer-content.answer-content-info =answer.body
 
-  .answer-actions
-    - if current_user and (current_user.id == answer.user_id)
-      = link_to 'Remove answer', question_answer_path(@question, answer), :method => :delete
+    .answer-actions
+      - if current_user and (current_user.id == answer.user_id)
+        = link_to 'Remove answer', question_answer_path(@question, answer), :method => :delete
