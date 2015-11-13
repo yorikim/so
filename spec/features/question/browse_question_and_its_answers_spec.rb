@@ -12,6 +12,6 @@ feature "Browse question and it's answers", %q{
     visit question_path(question)
 
     expect(page).to have_content question.title
-    answers.each { |answer| expect(page).to have_content answer.title }
+    answers.each { |answer| expect(page).to have_content answer.body }
   end
 end

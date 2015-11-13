@@ -10,11 +10,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
 
-    if @answer.save
-      redirect_to @question, notice: 'Your answer successfully created.'
-    else
-      render :new
-    end
+    @answer.save
   end
 
   def destroy
@@ -37,7 +33,6 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(
-        :title,
         :body,
     )
   end
