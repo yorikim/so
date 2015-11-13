@@ -1,17 +1,24 @@
-h2 = @question.title
-.content = @question.body
+- if current_user and current_user.questions.include?(@question)
+  = link_to 'Remove question', question_path(@question), :method => :delete
+
+.heading-block
+  h4 = @question.title
+
+.question-content
+  .content = @question.body
 
 - flash.each do |name, msg|
   = content_tag :div, msg, class: name
 
-- @question.answers.find_each do |answer|
-  h3 = answer.title
-  .answer-content =answer.body
+.heading-block
+  h4
+    = @question.answers.count
+    |  answers
+.answers
+  = render @question.answers
 
-  - if current_user and (current_user.id == answer.user_id)
-    = link_to 'Remove answer', question_answer_path(@question, answer), :method => :delete
+- if user_signed_in?
+  .heading-block
+    h4 Add Answer
+  = render 'answers/form'
 
-= link_to 'Answer', new_question_answer_path(@question)
-
-- if current_user and current_user.questions.include?(@question)
-  = link_to 'Remove question', question_path(@question), :method => :delete

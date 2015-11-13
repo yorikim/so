@@ -1,16 +1,10 @@
 - flash.each do |name, msg|
   = content_tag :div, msg, class: name
 
-.heading-block style="padding-top: 15px"
+.heading-block
   h4 Questions
 
 = link_to 'Ask question', new_question_path, class: 'btn btn-secondary'
 
 .questions
-  - @questions.each do |question|
-    .question-summary.row
-      .col-lg-1
-        strong
-          = question.answers.count
-      .col-lg-11
-        = link_to question.title, question
+  = render @questions

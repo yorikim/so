@@ -3,42 +3,28 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let!(:question) { create(:question_with_answers) }
 
-  describe 'GET #new' do
-    login_user :user_with_questions
-
-    before { get :new, question_id: question }
-
-    it 'assings a new answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it { should render_template :new }
-  end
-
   describe 'POST #create' do
     login_user :user_with_questions
 
     context 'with valid attributes' do
       it 'creates a new answer to the question' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
+        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to view Questions#show' do
-        post :create, question_id: question, answer: attributes_for(:answer)
-
-        answer = assigns(:answer)
-        should redirect_to question_path(id: answer.question_id)
+      it 'render create template' do
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        should render_template :create
       end
     end
 
     context 'with invalid attributes' do
       it 'does not create a new answer' do
-        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer) }.to_not change(Answer, :count)
+        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js }.to_not change(Answer, :count)
       end
 
-      it 're-render view #new' do
-        post :create, question_id: question, answer: attributes_for(:invalid_answer)
-        should render_template :new
+      it 'render temaple create' do
+        post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js
+        should render_template :create
       end
     end
   end

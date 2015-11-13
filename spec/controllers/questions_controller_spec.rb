@@ -25,7 +25,11 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     it 'assigns the included answers to @question.answers' do
-      expect(assigns(:question).answers).to match_array(answers)
+      expect(assigns(:question).answers).to include(*answers)
+    end
+
+    it 'assigns a new answer' do
+      expect(assigns(:answer)).to be_a_new(Answer)
     end
 
     it { should render_template :show }
