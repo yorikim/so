@@ -1,4 +1,6 @@
-.answer-content =answer.body
+.answer-container
+  .answer-content.answer-content-info =answer.body
 
-- if current_user and (current_user.id == answer.user_id)
-  = link_to 'Remove answer', question_answer_path(@question, answer), :method => :delete
+  .answer-actions
+    - if current_user and (current_user.id == answer.user_id)
+      = link_to 'Remove answer', question_answer_path(@question, answer), :method => :delete
