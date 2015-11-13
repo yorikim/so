@@ -1,14 +1,12 @@
 FactoryGirl.define do
-  factory :answer do
-    question
-    title "MyString"
-    body "MyText"
-  end
+  sequence(:answer_title) { |n| "Answer title #{n}" }
+  sequence(:answer_body)  { |n| "Answer body #{n}" }
 
-  factory :answer_2 do
+  factory :answer do
+    user
     question
-    title "MyString 2"
-    body "MyText 2"
+    title { generate(:answer_title) }
+    body  { generate(:answer_body) }
   end
 
   factory :invalid_answer, class: 'Answer' do

@@ -7,6 +7,7 @@ gem 'rails', '4.2.3'
 gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'bootstrap-sass', '~> 3.3.5'
+gem 'font-awesome-rails'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -36,6 +37,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'slim-rails'
 
 gem 'pg'
+gem 'devise'
+# gem 'devise-i18n'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -53,6 +56,7 @@ end
 
 group :test do
   gem 'shoulda-matchers', require: false
+  gem 'capybara'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]

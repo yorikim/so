@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
-  before_filter :load_question
+  before_action :authenticate_user!, only: [:new, :create, :destroy]
+  before_action :load_question
 
   def new
     @answer = @question.answers.new
@@ -7,16 +8,25 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
 
     if @answer.save
-      redirect_to [@question, @answer]
+      redirect_to @question, notice: 'Your answer successfully created.'
     else
       render :new
     end
   end
 
-  def show
+  def destroy
     @answer = @question.answers.find(params[:id])
+
+    notice = 'You have no authority to remove this answer.'
+    if @answer and @answer.user_id == current_user.id
+      @answer.destroy
+      notice = 'Your answer successfully removed.'
+    end
+
+    redirect_to question_path(@question), notice: notice
   end
 
   private

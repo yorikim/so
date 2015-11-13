@@ -1,0 +1,47 @@
+doctype html
+html
+  head
+    title so
+    /Google Font: Open Sans
+    link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,800,800italic"
+    link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:400,300,700"
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  body
+    header.navbar role="banner"
+      .container
+        .navbar-header
+          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            span.sr-only Toggle navigation
+            i.fa.fa-cog
+
+
+        nav.collapse.navbar-collapse role="navigation"
+          ul.nav.navbar-nav.navbar-left
+            li = link_to 'Main page', root_path
+
+          ul.nav.navbar-nav.navbar-right
+            li.dropdown.navbar-profile
+              a.dropdown-toggle data-toggle="dropdown" href="javascript:;"
+                span Account
+                span.visible-xs-inline @peterlandt &nbsp;
+                i.fa.fa-caret-down
+
+              ul.dropdown-menu role="menu"
+                /li.divider
+
+                li
+                  - if user_signed_in?
+                    = link_to destroy_user_session_path, method: :delete do
+                      i.fa.fa-sign-out &nbsp;Logout
+                  - else
+                    = link_to new_user_session_path do
+                      i.fa.fa-sign-in &nbsp;Login
+    .mainnav
+      .container style="padding-top: 15px"
+        = yield
+
+
+    a#back-to-top href="#top" style="display: block;"
+      i.fa.fa-chevron-up

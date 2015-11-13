@@ -1,0 +1,18 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import 'font-awesome';
+@import 'mvpready-admin';
+
+.heading-block {
+  padding-top: 15px;
+}
+
+.questions {
+  font-size: 16px;
+  font-weight: 400;
+
+  .question-summary {
+    padding: 12px 0 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+}
