@@ -81,22 +81,31 @@ RSpec.describe QuestionsController, type: :controller do
     let(:foreign_question) { create(:question) }
 
     context 'with valid attributes' do
+      before { patch :update, id: question, question: {title: 'new title', body: 'new body'}, format: :js }
+
+      it 'assings the requested question to @question' do
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'assigns to user' do
+        expect(assigns(:question).user).to eq @user
+      end
+
       it 'edit the question' do
-        patch :update, id: question, question: {title: 'new title', body: 'new body'}, format: :js
         question.reload
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
       end
 
       it 'render template update' do
-        patch :update, id: question, question: {title: 'new title', body: 'new body'}, format: :js
         should render_template :update
       end
     end
 
     context 'with invalid attributes' do
+      before { patch :update, id: question, question: {title: nil, body: nil}, format: :js }
+
       it 'edit the question' do
-        patch :update, id: question, question: {title: nil, body: nil}, format: :js
         question.reload
 
         expect(question.title).to_not eq nil
@@ -104,12 +113,11 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'render template edit' do
-        patch :update, id: question, question: {title: nil, body: nil}, format: :js
         should render_template :update
       end
     end
 
-    it 'trying to update them foreign question' do
+    it 'trying to update the foreign question' do
       patch :update, id: foreign_question, question: {title: 'new title', body: 'new body'}, format: :js
       foreign_question.reload
 

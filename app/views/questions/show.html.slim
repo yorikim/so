@@ -6,16 +6,7 @@
     .content#question-body = @question.body
 
   - if current_user and current_user.id == @question.user_id
-    .question-edit-form
-      = form_for @question, remote: true do |f|
-        .form-group
-          = f.label :title, 'Title'
-          = f.text_field :title, class: 'form-control', placeholder: 'Title'
-        .form-group
-          = f.label :body, 'Body'
-          = f.text_area :body, class: 'form-control', placeholder: 'Body'
-
-        = f.submit 'Save question', class: 'btn btn-info'
+    = render partial: 'form', locals: {submit_title: 'Save question', remote: true}
 
     .question-actions
       = link_to 'Edit question', '', class: 'btn btn-info edit-question-link', data: {question_id: @question.id}
@@ -34,4 +25,4 @@
 - if user_signed_in?
   .heading-block
     h4 Add Answer
-  = render 'answers/form'
+    = render partial: 'answers/form', locals: {question: @question, answer: @answer, submit_title: 'Create answer'}

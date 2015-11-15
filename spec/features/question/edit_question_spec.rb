@@ -32,6 +32,9 @@ feature 'Edit Question' do
         expect(page).to_not have_content own_question.title
         expect(page).to_not have_content own_question.body
 
+        expect(page).to have_content 'New Question title'
+        expect(page).to have_content 'New Question Body'
+
         expect(page).to_not have_selector 'input[type=text]'
         expect(page).to_not have_selector 'textarea'
       end
@@ -39,7 +42,7 @@ feature 'Edit Question' do
 
     scenario 'trying to edit foreign question' do
       visit question_path(foreign_question)
-      expect(page).to_not have_selector '.question-actions a.edit-link'
+      expect(page).to_not have_selector '.question-actions a.edit-question-link'
     end
   end
 end

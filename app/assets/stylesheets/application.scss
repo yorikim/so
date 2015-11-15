@@ -28,13 +28,27 @@
       margin-right: 10px;
     }
   }
+
+}
+
+.answers {
+  form.edit_answer {
+    display: none;
+  }
+
+  .answer-actions {
+    padding-top: 10px;
+    a {
+      margin-right: 10px;
+    }
+  }
 }
 
 .answer-container {
   padding-bottom: 10px;
 
   .answer-content {
-    padding: 20px ;
+    padding: 20px;
     margin: 10px 0px;
     border-width: 1px 1px 1px 5px;
     border-style: solid;
