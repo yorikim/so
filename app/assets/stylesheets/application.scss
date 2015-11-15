@@ -17,6 +17,19 @@
   }
 }
 
+.question-container {
+  form.edit_question {
+    display: none;
+  }
+
+  .question-actions {
+    padding-top: 10px;
+    a {
+      margin-right: 10px;
+    }
+  }
+}
+
 .answer-container {
   padding-bottom: 10px;
 

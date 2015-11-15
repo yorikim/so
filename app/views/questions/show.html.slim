@@ -1,11 +1,25 @@
-- if current_user and current_user.questions.include?(@question)
-  = link_to 'Remove question', question_path(@question), :method => :delete
+.question-container
+  .heading-block
+    h4#question-title = @question.title
 
-.heading-block
-  h4 = @question.title
+  .question-content
+    .content#question-body = @question.body
 
-.question-content
-  .content = @question.body
+  - if current_user and current_user.id == @question.user_id
+    .question-edit-form
+      = form_for @question, remote: true do |f|
+        .form-group
+          = f.label :title, 'Title'
+          = f.text_field :title, class: 'form-control', placeholder: 'Title'
+        .form-group
+          = f.label :body, 'Body'
+          = f.text_area :body, class: 'form-control', placeholder: 'Body'
+
+        = f.submit 'Save question', class: 'btn btn-info'
+
+    .question-actions
+      = link_to 'Edit question', '', class: 'btn btn-info edit-question-link', data: {question_id: @question.id}
+      = link_to 'Remove question', question_path(@question), class: 'btn btn-danger remove-question-link', data: {question_id: @question.id}, :method => :delete
 
 - flash.each do |name, msg|
   = content_tag :div, msg, class: name
@@ -21,4 +35,3 @@
   .heading-block
     h4 Add Answer
   = render 'answers/form'
-

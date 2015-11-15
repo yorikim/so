@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'Remove answer' do
   given!(:current_user) { create(:user) }
