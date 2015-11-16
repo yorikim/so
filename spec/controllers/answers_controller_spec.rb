@@ -86,8 +86,8 @@ RSpec.describe AnswersController, type: :controller do
     let(:own_answer) { own_question.answers.first }
 
     it 'remove own answer' do
-      expect { delete :destroy, question_id: own_question, id: own_answer }.to change(own_question.answers, :count).by(-1)
-      should redirect_to question_path(own_question)
+      expect { delete :destroy, question_id: own_question, id: own_answer, format: :js }.to change(own_question.answers, :count).by(-1)
+      should render_template :destroy
     end
 
     let!(:another_user) { create(:user_with_questions) }
@@ -95,8 +95,8 @@ RSpec.describe AnswersController, type: :controller do
     let(:foreign_answer) { foreign_question.answers.first }
 
     it 'not remove foreign question' do
-      expect { delete :destroy, question_id: foreign_question, id: foreign_answer }.to_not change(Answer, :count)
-      should redirect_to question_path(foreign_question)
+      expect { delete :destroy, question_id: foreign_question, id: foreign_answer, format: :js }.to_not change(Answer, :count)
+      should render_template :destroy
     end
   end
 end

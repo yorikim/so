@@ -19,13 +19,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    notice = 'You have no authority to remove this answer.'
     if @answer and @answer.user_id == current_user.id
       @answer.destroy
-      notice = 'Your answer successfully removed.'
+    else
+      @answer.errors.add(:base, 'You have no authority to remove this answer.')
     end
-
-    redirect_to question_path(@question), notice: notice
   end
 
   private

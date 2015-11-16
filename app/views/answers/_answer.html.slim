@@ -7,4 +7,4 @@
 
       .answer-actions
         = link_to 'Edit answer', '', class: 'btn btn-info edit-answer-link', data: {answer_id: answer.id}
-        = link_to 'Remove answer', question_answer_path(@question, answer), class: 'btn btn-danger remove-answer-link', :method => :delete
+        = link_to 'Remove answer', question_answer_path(@question, answer), class: 'btn btn-danger remove-answer-link', remote: true, :method => :delete
