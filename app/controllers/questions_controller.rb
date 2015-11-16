@@ -25,7 +25,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.user_id == current_user.id
+    if current_user.author_of?(@question)
       @question.update(question_params)
     else
       @question.errors.add(:base, 'You have no authority to edit this question.')
@@ -34,7 +34,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     notice = 'You have no authority to remove this question.'
-    if @question.user_id == current_user.id
+    if current_user.author_of?(@question)
       @question.destroy
       notice = 'Your question successfully removed.'
     end

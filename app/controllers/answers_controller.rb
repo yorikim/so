@@ -11,7 +11,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if @answer.user_id == current_user.id
+    if current_user.author_of?(@answer)
       @answer.update(answer_params)
     else
       @answer.errors.add(:base, 'You have no authority to edit this answer.')
@@ -19,16 +19,15 @@ class AnswersController < ApplicationController
   end
 
   def best_answer
-    if @question.user_id == current_user.id
-      @question.set_best_answer!(@answer)
+    if current_user.author_of?(@question)
+      @answer.mark_as_best
     else
       @answer.errors.add(:base, 'You have no authority to set best answer.')
     end
   end
 
   def destroy
-    if @answer and @answer.user_id == current_user.id
-      @question.remove_best_answer if @question.best_answer_id == @answer.id
+    if @answer && current_user.author_of?(@answer)
       @answer.destroy
     else
       @answer.errors.add(:base, 'You have no authority to remove this answer.')
@@ -50,4 +49,5 @@ class AnswersController < ApplicationController
         :body,
     )
   end
+
 end

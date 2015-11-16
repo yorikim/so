@@ -5,7 +5,7 @@
   .question-content
     .content#question-body = @question.body
 
-  - if current_user and current_user.id == @question.user_id
+  - if is_current_user_author_of?(@question)
     = render partial: 'form', locals: {submit_title: 'Save question', remote: true}
 
     .question-actions
@@ -20,8 +20,7 @@
     = @question.answers.count
     |  answers
 .answers
-  = render @question.best_answer if @question.best_answer
-  = render @question.answers_without_best
+  = render @question.answers.order('best desc')
 
 - if user_signed_in?
   .heading-block

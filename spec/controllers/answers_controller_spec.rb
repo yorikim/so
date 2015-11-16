@@ -93,7 +93,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'should update question' do
         own_question.reload
-        expect(own_question.best_answer_id).to eq foreign_answer.id
+        expect(own_question.best_answer.id).to eq foreign_answer.id
       end
 
       it { should render_template :best_answer }
@@ -103,7 +103,7 @@ RSpec.describe AnswersController, type: :controller do
       before { post :best_answer, question_id: foreign_question, id: own_answer, format: :js }
 
       it 'not marks as best answer' do
-        expect(foreign_question.best_answer_id).to_not eq own_answer.id
+        expect(own_answer.best).to eq false
       end
 
       it { should render_template :best_answer }

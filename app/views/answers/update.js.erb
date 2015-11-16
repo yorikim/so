@@ -1,1 +1,8 @@
-<%= render 'answers' %>
+<% if @answer.errors.present? %>
+<% @answer.errors.full_messages.each do |message| %>
+$('.answer-errors').html('<%= j message %>');
+<% end %>
+<% else %>
+$('<%= "#answer-container-#{@answer.id}" %> .answer-content').text('<%= @answer.body %>');
+$('<%= "#edit_answer_#{@answer.id}" %>').hide();
+<% end %>
