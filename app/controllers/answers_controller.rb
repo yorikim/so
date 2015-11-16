@@ -22,7 +22,7 @@ class AnswersController < ApplicationController
     if current_user.author_of?(@question)
       @answer.mark_as_best
     else
-      @answer.errors.add(:base, 'You have no authority to set best answer.')
+      flash[:notice] = 'You have no authority to set best answer.'
     end
   end
 
@@ -30,7 +30,7 @@ class AnswersController < ApplicationController
     if @answer && current_user.author_of?(@answer)
       @answer.destroy
     else
-      @answer.errors.add(:base, 'You have no authority to remove this answer.')
+      flash[:notice] = 'You have no authority to remove this answer.'
     end
   end
 

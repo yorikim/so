@@ -28,7 +28,7 @@ class QuestionsController < ApplicationController
     if current_user.author_of?(@question)
       @question.update(question_params)
     else
-      @question.errors.add(:base, 'You have no authority to edit this question.')
+      flash[:notice] = 'You have no authority to edit this question.'
     end
   end
 
