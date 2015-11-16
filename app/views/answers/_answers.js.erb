@@ -4,7 +4,7 @@ $('.answer-errors').html('<%= j message %>');
 <% end %>
 <% else %>
 $('#answers-count').text('<%= @question.answers.count %> answers');
-$('.answers').html('<%= j render @question.best_answer %>');
+$('.answers').html('<%= j render @question.best_answer if @question.best_answer %>');
 $('.answers').append('<%= j render @question.answers_without_best %>');
 
 $('.edit-answer-link').click(function (e) {

@@ -28,6 +28,7 @@ class AnswersController < ApplicationController
 
   def destroy
     if @answer and @answer.user_id == current_user.id
+      @question.remove_best_answer if @question.best_answer_id == @answer.id
       @answer.destroy
     else
       @answer.errors.add(:base, 'You have no authority to remove this answer.')
