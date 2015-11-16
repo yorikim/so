@@ -4,5 +4,6 @@ Rails.application.routes.draw do
 
   resources 'questions', except: [:edit] do
     resources 'answers', except: [:index, :show, :edit]
+    post 'answers/:id/best_answer' => 'answers#best_answer'
   end
 end

@@ -80,6 +80,36 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'POST #best_answer' do
+    login_user :user
+    let(:own_question) { create(:question, user: @user) }
+    let(:foreign_question) { create(:question) }
+
+    let(:own_answer) { create(:answer, question: foreign_question, user: @user) }
+    let(:foreign_answer) { create(:answer, question: own_question) }
+
+    context 'own question' do
+      before { post :best_answer, question_id: own_question, id: foreign_answer, format: :js }
+
+      it 'should update question' do
+        own_question.reload
+        expect(own_question.best_answer_id).to eq foreign_answer.id
+      end
+
+      it { should render_template :best_answer }
+    end
+
+    context 'foreign question' do
+      before { post :best_answer, question_id: foreign_question, id: own_answer, format: :js }
+
+      it 'not marks as best answer' do
+        expect(foreign_question.best_answer_id).to_not eq own_answer.id
+      end
+
+      it { should render_template :best_answer }
+    end
+  end
+
   describe 'DELETE #destroy' do
     login_user :user_with_questions
     let!(:own_question) { @user.questions.first }

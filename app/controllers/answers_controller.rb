@@ -18,6 +18,14 @@ class AnswersController < ApplicationController
     end
   end
 
+  def best_answer
+    if @question.user_id == current_user.id
+      @question.set_best_answer!(@answer)
+    else
+      @answer.errors.add(:base, 'You have no authority to set best answer.')
+    end
+  end
+
   def destroy
     if @answer and @answer.user_id == current_user.id
       @answer.destroy

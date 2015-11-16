@@ -20,7 +20,8 @@
     = @question.answers.count
     |  answers
 .answers
-  = render @question.answers
+  = render @question.best_answer
+  = render @question.answers_without_best
 
 - if user_signed_in?
   .heading-block

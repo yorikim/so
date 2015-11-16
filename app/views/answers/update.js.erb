@@ -1,12 +1,1 @@
-<% if @answer.errors.present? %>
-  <% @answer.errors.full_messages.each do |message| %>
-    $('.answer-errors').html('<%= j message %>');
-  <% end %>
-<% else %>
-  $('.answers').html('<%= j render @question.answers %>');
-
-  $('.edit-answer-link').click(function (e) {
-    e.preventDefault();
-    $('#edit_answer_' + $(this).data('answerId')).show();
-  });
-<% end %>
+<%= render 'answers' %>

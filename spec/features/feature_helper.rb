@@ -1,7 +1,7 @@
 require_relative '../rails_helper'
 
 RSpec.configure do |config|
-  Capybara.javascript_driver = :webkit
+  # Capybara.javascript_driver = :webkit
 
   config.include FeatureMacros, type: :feature
 
@@ -28,6 +28,6 @@ RSpec.configure do |config|
   end
 end
 
-Capybara::Webkit.configure do |config|
-  config.allow_unknown_urls
-end
+# Capybara::Webkit.configure do |config|
+#   config.allow_unknown_urls
+# end

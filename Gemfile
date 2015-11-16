@@ -57,8 +57,8 @@ end
 group :test do
   gem 'shoulda-matchers', require: false
   gem 'capybara'
-  gem 'capybara-webkit'
-  # gem 'selenium-webdriver'
+  # gem 'capybara-webkit'
+  gem 'selenium-webdriver'
   gem 'database_cleaner'
 end
 
