@@ -12,12 +12,11 @@ feature 'Add files to the question' do
     fill_in 'question_title', with: 'New question title'
     fill_in 'question_body', with: 'New question body'
 
-    # all('input[type="file"]').first.set "#{Rails.root}/spec/support/fixtures/test1.txt"
-    attach_file('input[type="file"]', "#{Rails.root}/spec/support/fixtures/test1.txt")
+    all('input[type="file"]').first.set File.join(Rails.root, 'spec', 'support', 'fixtures', 'test1.txt')
 
     click_on 'Add attachment'
 
-    # all('input[type="file"]').last.set "#{Rails.root}/spec/support/fixtures/test2.txt"
+    all('input[type="file"]').last.set File.join(Rails.root, 'spec', 'support', 'fixtures', 'test2.txt')
 
     click_on 'Ask'
 

@@ -9,11 +9,8 @@ feature "Remove question's files" do
     visit question_path(question)
   end
 
-  scenario "User removes question's file" do
-    puts current_path
+  scenario "User removes question's file", js: true do
     click_on 'Edit question'
-
-    puts page.body
 
     click_on 'Remove attachment'
     click_on 'Save question'
