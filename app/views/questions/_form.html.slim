@@ -6,4 +6,13 @@
     = f.label :body, 'Body'
     = f.text_area :body, class: 'form-control', placeholder: 'Body'
 
+  .form-group
+    h4 Attachments
+    .attachments
+      = f.fields_for :attachments do |a|
+        = render 'attachments/attachment_fields', f: a, attachment: (a.object.new_record? ? nil : a.object.file)
+
+      .form-group
+        = link_to_add_association 'Add attachment', f, :attachments, class: 'btn btn-info', partial: 'attachments/attachment_fields'
+
   = f.submit submit_title, class: 'btn btn-secondary'
