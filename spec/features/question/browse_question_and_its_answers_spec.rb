@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature "Browse question and it's answers", %q{
         In order to improve knowledge

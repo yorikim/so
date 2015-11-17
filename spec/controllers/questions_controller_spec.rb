@@ -75,6 +75,57 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'PATCH #update' do
+    login_user :user
+    let(:question) { create(:question, user: @user) }
+    let(:foreign_question) { create(:question) }
+
+    context 'with valid attributes' do
+      before { patch :update, id: question, question: {title: 'new title', body: 'new body'}, format: :js }
+
+      it 'assings the requested question to @question' do
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'assigns to user' do
+        expect(assigns(:question).user).to eq @user
+      end
+
+      it 'edit the question' do
+        question.reload
+        expect(question.title).to eq 'new title'
+        expect(question.body).to eq 'new body'
+      end
+
+      it 'render template update' do
+        should render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      before { patch :update, id: question, question: {title: nil, body: nil}, format: :js }
+
+      it 'edit the question' do
+        question.reload
+
+        expect(question.title).to_not eq nil
+        expect(question.body).to_not eq nil
+      end
+
+      it 'render template edit' do
+        should render_template :update
+      end
+    end
+
+    it 'trying to update the foreign question' do
+      patch :update, id: foreign_question, question: {title: 'new title', body: 'new body'}, format: :js
+      foreign_question.reload
+
+      expect(question.title).to_not eq 'new title'
+      expect(question.body).to_not eq 'new body'
+    end
+  end
+
   describe 'DELETE #destroy' do
     login_user(:user_with_questions)
     let(:question) { @user.questions.first }

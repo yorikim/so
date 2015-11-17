@@ -1,7 +1,20 @@
 - unless answer.new_record?
-  .answer-container
-    .answer-content.answer-content-info =answer.body
+  .answer-container id="answer-container-#{answer.id}"
+    - if answer.best?
+      .answer-content.answer-content-best =answer.body
+    - else
+      .answer-content.answer-content-info =answer.body
+
+    - if is_current_user_author_of?(answer)
+      = render partial: 'answers/form', locals: {question: @question, answer: answer, submit_title: 'Save answer'}
 
     .answer-actions
-      - if current_user and (current_user.id == answer.user_id)
-        = link_to 'Remove answer', question_answer_path(@question, answer), :method => :delete
+      - if is_current_user_author_of?(@question)
+        - if answer.best?
+          span.label.label-success Best Answer
+        - else
+          = link_to 'Mark as best answer', question_answer_path(@question, answer) + '/best_answer', class: 'btn btn-info set-best-answer-link', id: "set-best-answer-#{answer.id}", remote: true, method: :post
+
+      - if is_current_user_author_of?(answer)
+        = link_to 'Edit answer', '', class: 'btn btn-info edit-answer-link', data: {answer_id: answer.id}
+        = link_to 'Remove answer', question_answer_path(@question, answer), class: 'btn btn-danger remove-answer-link', remote: true, :method => :delete

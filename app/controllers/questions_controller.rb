@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy]
+  before_action :load_question, only: [:show, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -20,15 +21,20 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.find(params[:id])
     @answer = @question.answers.build
   end
 
-  def destroy
-    @question = current_user.questions.find_by(id: params[:id])
+  def update
+    if current_user.author_of?(@question)
+      @question.update(question_params)
+    else
+      flash[:notice] = 'You have no authority to edit this question.'
+    end
+  end
 
+  def destroy
     notice = 'You have no authority to remove this question.'
-    if @question
+    if current_user.author_of?(@question)
       @question.destroy
       notice = 'Your question successfully removed.'
     end
@@ -37,6 +43,10 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def load_question
+    @question = Question.find(params[:id])
+  end
 
   def question_params
     params.require(:question).permit(

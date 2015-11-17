@@ -1,4 +1,4 @@
-= form_for @question do |f|
+= form_for @question, remote: remote do |f|
   .form-group
     = f.label :title, 'Title'
     = f.text_field :title, class: 'form-control', placeholder: 'Title'
@@ -6,4 +6,4 @@
     = f.label :body, 'Body'
     = f.text_area :body, class: 'form-control', placeholder: 'Body'
 
-  = f.submit 'Ask', class: 'btn btn-secondary'
+  = f.submit submit_title, class: 'btn btn-secondary'

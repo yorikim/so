@@ -1,10 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :destroy]
+  before_action :authenticate_user!
   before_action :load_question
-
-  def new
-    @answer = @question.answers.new
-  end
+  before_action :load_answer, except: [:create]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -13,16 +10,28 @@ class AnswersController < ApplicationController
     @answer.save
   end
 
-  def destroy
-    @answer = @question.answers.find(params[:id])
-
-    notice = 'You have no authority to remove this answer.'
-    if @answer and @answer.user_id == current_user.id
-      @answer.destroy
-      notice = 'Your answer successfully removed.'
+  def update
+    if current_user.author_of?(@answer)
+      @answer.update(answer_params)
+    else
+      @answer.errors.add(:base, 'You have no authority to edit this answer.')
     end
+  end
 
-    redirect_to question_path(@question), notice: notice
+  def best_answer
+    if current_user.author_of?(@question)
+      @answer.mark_as_best
+    else
+      flash[:notice] = 'You have no authority to set best answer.'
+    end
+  end
+
+  def destroy
+    if @answer && current_user.author_of?(@answer)
+      @answer.destroy
+    else
+      flash[:notice] = 'You have no authority to remove this answer.'
+    end
   end
 
   private
@@ -31,9 +40,14 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
   end
 
+  def load_answer
+    @answer = @question.answers.find(params[:id])
+  end
+
   def answer_params
     params.require(:answer).permit(
         :body,
     )
   end
+
 end

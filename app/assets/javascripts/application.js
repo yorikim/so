@@ -5,3 +5,4 @@
 //= require mvpready-core
 //= require mvpready-helpers
 //= require mvpready-admin
+//= require_tree .
