@@ -40,7 +40,6 @@ RSpec.configure do |config|
     if Rails.env.test?
       FileUtils.rm_rf(Dir["#{Rails.root}/public/question/[^.]*"])
       FileUtils.rm_rf(Dir["#{Rails.root}/public/answer/[^.]*"])
-      FileUtils.rm_rf(Dir["#{temp_path}/[^.]*"])
     end
   end
 end

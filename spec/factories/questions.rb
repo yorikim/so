@@ -20,8 +20,7 @@ FactoryGirl.define do
 
     factory :question_with_attachments do
       after(:create) do |question|
-        attach = create(:attachment)
-        question.attachments << attach
+        question.attachments << create(:question_attachment)
       end
     end
   end

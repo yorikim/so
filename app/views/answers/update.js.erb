@@ -3,6 +3,7 @@
 $('.answer-errors').html('<%= j message %>');
 <% end %>
 <% else %>
-$('<%= "#answer-container-#{@answer.id}" %> .answer-content').text('<%= @answer.body %>');
+$('<%= "#answer-container-#{@answer.id}" %> .answer-content').text('<%= j @answer.body %>');
+$('<%= "#answer-container-#{@answer.id}" %> .attachments').html('<%= j render @answer.attachments %>');
 $('<%= "#edit_answer_#{@answer.id}" %>').hide();
 <% end %>

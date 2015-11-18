@@ -1,3 +1,5 @@
+require 'rbconfig'
+
 module FeatureMacros
   def sign_in(user)
     visit new_user_session_path
@@ -15,5 +17,9 @@ module FeatureMacros
     fill_in 'Password confirmation', with: password_confirmation
 
     click_on 'Sign up'
+  end
+
+  def get_correct_filepath(path)
+    (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/) ? path.gsub('/', '\\') : path
   end
 end

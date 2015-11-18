@@ -9,7 +9,7 @@
       = render partial: 'answers/form', locals: {question: @question, answer: answer, submit_title: 'Save answer'}
 
     .attachments
-      = render @answer.attachments
+      = render answer.attachments
 
     .answer-actions
       - if is_current_user_author_of?(@question)
