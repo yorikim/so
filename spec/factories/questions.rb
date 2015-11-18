@@ -4,8 +4,8 @@ FactoryGirl.define do
 
   factory :question do
     user
-    title { generate(:question_title) }
-    body { generate(:question_body) }
+    sequence(:title) { |n| "Question title #{n}" }
+    sequence(:body) { |n| "Question body #{n}" }
 
     factory :question_with_answers do
       transient do

@@ -1,10 +1,10 @@
 FactoryGirl.define do
-  sequence(:answer_body) { |n| "Answer body #{n}" }
+
 
   factory :answer do
     user
     question
-    body { generate(:answer_body) }
+    sequence(:body) { |n| "Answer body #{n}" }
 
     factory :answer_with_attachments do
       after(:create) do |answer|
