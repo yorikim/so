@@ -1,5 +1,5 @@
 class Answer < ActiveRecord::Base
-  include Attachmentable
+  include Attachable
 
   belongs_to :user
   belongs_to :question
