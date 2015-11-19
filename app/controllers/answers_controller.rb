@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include VoteableController
+
   before_action :authenticate_user!
   before_action :load_question
   before_action :load_answer, except: [:create]
@@ -42,6 +44,7 @@ class AnswersController < ApplicationController
 
   def load_answer
     @answer = @question.answers.find(params[:id])
+    @obj = @answer
   end
 
   def answer_params

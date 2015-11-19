@@ -28,7 +28,35 @@
       margin-right: 10px;
     }
   }
+}
 
+.vote-container {
+  font-size: 18px;
+  text-align: center;
+
+  .vote-up {
+    a {
+      color: black;
+    }
+
+    &.active {
+      a {
+        color: green;
+      }
+    }
+  }
+
+  .vote-down {
+    a {
+      color: black;
+    }
+
+    &.active {
+      a {
+        color: orange;
+      }
+    }
+  }
 }
 
 .answers {

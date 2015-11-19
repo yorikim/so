@@ -2,8 +2,19 @@
   .heading-block
     h4#question-title = @question.title
 
-  .question-content
-    .content#question-body = @question.body
+  .question-content.row
+    .vote-container.col-lg-1
+      - if current_user && !is_current_user_author_of?(@question)
+        .vote-up
+          = link_to "#{vote_up_question_path(@question)}", class: 'question-vote-up-link', remote: true, method: :post do
+            i.fa.fa-sort-asc
+      span.vote-value = @question.vote_value
+      - if current_user && !is_current_user_author_of?(@question)
+        .vote-down
+          = link_to "#{vote_down_question_path(@question)}", class: 'question-vote-down-link', remote: true, method: :post do
+            i.fa.fa-sort-desc
+
+    #question-body.content.col-lg-11 = @question.body
     #question-attachments
       = render @question.attachments
 

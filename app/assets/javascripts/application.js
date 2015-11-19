@@ -3,7 +3,6 @@
 //= require jquery.remotipart
 //= require cocoon
 //= require bootstrap-sprockets
-//= require turbolinks
 //= require mvpready-core
 //= require mvpready-helpers
 //= require mvpready-admin
