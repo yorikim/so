@@ -147,4 +147,56 @@ RSpec.describe QuestionsController, type: :controller do
       should redirect_to questions_path
     end
   end
+
+  describe 'POST #vote_up' do
+    let(:user) { create(:user) }
+    let(:own_question) { create(:question, user: user) }
+    let(:foreign_question) { create(:question) }
+
+    before { sign_in user }
+
+    it 'increase vote value for the foreign question' do
+      post :vote_up, id: foreign_question
+      foreign_question.reload
+      expect(foreign_question.vote_value).to eq 1
+    end
+
+    it 'response JSON object' do
+      post :vote_up, id: foreign_question
+
+      result = JSON.parse(response.body)
+      expect(result['vote_value']).to eq 1
+      expect(result['vote_status']).to eq 1
+    end
+
+    it 'vote up the own question' do
+      expect { post :vote_up, id: own_question }.to_not change(Vote, :count)
+    end
+  end
+
+  describe 'POST #vote_down' do
+    let(:user) { create(:user) }
+    let(:own_question) { create(:question, user: user) }
+    let(:foreign_question) { create(:question) }
+
+    before { sign_in user }
+
+    it 'decrease vote value for the foreign question' do
+      post :vote_down, id: foreign_question
+      foreign_question.reload
+      expect(foreign_question.vote_value).to eq -1
+    end
+
+    it 'response JSON object' do
+      post :vote_down, id: foreign_question
+
+      result = JSON.parse(response.body)
+      expect(result['vote_value']).to eq -1
+      expect(result['vote_status']).to eq -1
+    end
+
+    it 'vote down the own question' do
+      expect { post :vote_down, id: own_question }.to_not change(Vote, :count)
+    end
+  end
 end

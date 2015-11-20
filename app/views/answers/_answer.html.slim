@@ -1,9 +1,22 @@
 - unless answer.new_record?
   .answer-container id="answer-container-#{answer.id}"
-    - if answer.best?
-      .answer-content.answer-content-best =answer.body
-    - else
-      .answer-content.answer-content-info =answer.body
+    .answer-content.row
+      .vote-container.col-lg-1
+        - if current_user && !is_current_user_author_of?(answer)
+          .vote-up data-answer-id=answer.id
+            = link_to "#{vote_up_question_answer_path(@question, answer)}", class: 'answer-vote-up-link', data: {answer_id: answer.id}, remote: true, method: :post do
+              i.fa.fa-sort-asc
+        span.vote-value = @question.vote_value
+        - if current_user && !is_current_user_author_of?(answer)
+          .vote-down data-answer-id=answer.id
+            = link_to "#{vote_down_question_answer_path(@question, answer)}", class: 'answer-vote-down-link', remote: true, method: :post do
+              i.fa.fa-sort-desc
+
+      - if answer.best?
+        .answer-content.answer-content-best.col-lg-11 =answer.body
+      - else
+        .answer-content.answer-content-info.col-lg-11 =answer.body
+
 
     - if is_current_user_author_of?(answer)
       = render partial: 'answers/form', locals: {question: @question, answer: answer, submit_title: 'Save answer'}

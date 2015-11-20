@@ -7,4 +7,10 @@ RSpec.describe Question, type: :model do
   it { should have_many(:answers).dependent(:destroy) }
   it { should belong_to(:user) }
   it { should have_many(:attachments).dependent(:destroy) }
+  it { should have_many(:votes).dependent(:destroy) }
+
+
+  describe Question do
+    it_behaves_like 'voteable'
+  end
 end

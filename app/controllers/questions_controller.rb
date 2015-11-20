@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :destroy]
-  before_action :load_question, only: [:show, :update, :destroy]
+  include VoteableController
+
+  before_action :authenticate_user!, only: [:new, :create, :destroy, :vote_up, :vote_down]
+  before_action :load_question, only: [:show, :update, :destroy, :vote_up, :vote_down]
 
   def index
     @questions = Question.all
@@ -44,10 +46,12 @@ class QuestionsController < ApplicationController
     redirect_to questions_path, notice: notice
   end
 
+
   private
 
   def load_question
     @question = Question.find(params[:id])
+    @obj = @question
   end
 
   def question_params
@@ -57,5 +61,4 @@ class QuestionsController < ApplicationController
         attachments_attributes: [:file, :_destroy, :id],
     )
   end
-
 end

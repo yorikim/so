@@ -129,4 +129,60 @@ RSpec.describe AnswersController, type: :controller do
       should render_template :destroy
     end
   end
+
+  describe 'POST #vote_up' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+
+    let!(:own_answer) { create(:answer, question: question, user: user) }
+    let!(:foreign_answer) { create(:answer, question: question) }
+
+    before { sign_in user }
+
+    it 'increase vote value for the foreign answer' do
+      post :vote_up, question_id: question, id: foreign_answer
+      foreign_answer.reload
+      expect(foreign_answer.vote_value).to eq 1
+    end
+
+    it 'response JSON object' do
+      post :vote_up, question_id: question, id: foreign_answer
+
+      result = JSON.parse(response.body)
+      expect(result['vote_value']).to eq 1
+      expect(result['vote_status']).to eq 1
+    end
+
+    it 'vote up the own question' do
+      expect { post :vote_up, question_id: question, id: own_answer }.to_not change(Vote, :count)
+    end
+  end
+
+  describe 'POST #vote_down' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+
+    let!(:own_answer) { create(:answer, question: question, user: user) }
+    let!(:foreign_answer) { create(:answer, question: question) }
+
+    before { sign_in user }
+
+    it 'decrease vote value for the foreign answer' do
+      post :vote_down, question_id: question, id: foreign_answer
+      foreign_answer.reload
+      expect(foreign_answer.vote_value).to eq -1
+    end
+
+    it 'response JSON object' do
+      post :vote_down, question_id: question, id: foreign_answer
+
+      result = JSON.parse(response.body)
+      expect(result['vote_value']).to eq -1
+      expect(result['vote_status']).to eq -1
+    end
+
+    it 'vote down the own question' do
+      expect { post :vote_down, question_id: question, id: own_answer }.to_not change(Vote, :count)
+    end
+  end
 end
