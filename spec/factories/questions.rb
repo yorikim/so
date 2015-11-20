@@ -4,8 +4,8 @@ FactoryGirl.define do
 
   factory :question do
     user
-    title { generate(:question_title) }
-    body { generate(:question_body) }
+    sequence(:title) { |n| "Question title #{n}" }
+    sequence(:body) { |n| "Question body #{n}" }
 
     factory :question_with_answers do
       transient do
@@ -15,6 +15,12 @@ FactoryGirl.define do
       after(:create) do |question, evaluator|
         create(:answer, question: question, user: question.user)
         create_list(:answer, evaluator.answers_count, question: question)
+      end
+    end
+
+    factory :question_with_attachments do
+      after(:create) do |question|
+        question.attachments << create(:question_attachment)
       end
     end
   end

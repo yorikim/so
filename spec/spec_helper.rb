@@ -21,34 +21,25 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller
 
-  config.extend  ControllerMacros, type: :controller
+  config.extend ControllerMacros, type: :controller
   config.include FeatureMacros, type: :feature
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
-  config.mock_with :rspec do |mocks|
-    mocks.verify_partial_doubles = true
-  end
+  config.backtrace_exclusion_patterns = [
+      /\/lib\d*\/ruby\//,
+      /bin\//,
+      /gems/,
+      /spec\/spec_helper\.rb/,
+      /lib\/rspec\/(core|expectations|matchers|mocks)/
+  ]
 
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-  end
-
-  config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
+  config.after(:all) do
+    if Rails.env.test?
+      FileUtils.rm_rf(Dir["#{Rails.root}/public/question/[^.]*"])
+      FileUtils.rm_rf(Dir["#{Rails.root}/public/answer/[^.]*"])
+    end
   end
 end

@@ -5,5 +5,7 @@ $('.question-errors').html('<%= j message %>');
 <% else %>
 $('#question-title').text('<%= @question.title %>');
 $('#question-body').text('<%= @question.body %>');
+$('#question-attachments').html('<%= j render @question.attachments %>');
+
 $('form#edit_question_<%= @question.id %>').hide();
 <% end %>

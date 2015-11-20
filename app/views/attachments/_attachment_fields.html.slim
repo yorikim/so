@@ -1,0 +1,8 @@
+.nested-fields.form-group
+  - if defined?(attachment) && !attachment.nil?
+    = f.text_field :file, class: 'form-control', value: attachment.filename, disabled: :disabled
+  - else
+    = f.label :file
+    = f.file_field :file, class: 'form-control form-attachment'
+
+  = link_to_remove_association 'Remove attachment', f

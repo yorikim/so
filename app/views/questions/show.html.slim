@@ -4,6 +4,8 @@
 
   .question-content
     .content#question-body = @question.body
+    #question-attachments
+      = render @question.attachments
 
   - if is_current_user_author_of?(@question)
     = render partial: 'form', locals: {submit_title: 'Save question', remote: true}

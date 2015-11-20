@@ -21,6 +21,12 @@ config/secrets.yml
 /.bundle
 /vendor/bundle
 
+# Ignore uploaded files
+/public/system
+/public/tmp
+/public/uploads
+/public/spec
+
 # these should all be checked in to normalise the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
 
