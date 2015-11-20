@@ -7,7 +7,7 @@ module Voteable
   end
 
   def vote_value
-    votes.map(&:value).inject(:+) || 0
+    votes.sum(:value)
   end
 
   def vote_up(user)
@@ -21,9 +21,9 @@ module Voteable
   protected
 
   def make_vote(user, value)
-    vote = votes.find_or_create_by(user_id: user.id)
-    vote.change_value(value)
-
-    vote.save
+    unless self.new_record?
+      vote = votes.find_or_create_by(user: user)
+      vote.change_value(value)
+    end
   end
 end

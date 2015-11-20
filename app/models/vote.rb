@@ -5,6 +5,8 @@ class Vote < ActiveRecord::Base
   validates :value, presence: true
 
   def change_value(op_value)
+    self.value ||= 0
     self.value = (self.value + op_value) <=> 0
+    save
   end
 end
