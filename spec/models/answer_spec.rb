@@ -8,5 +8,7 @@ RSpec.describe Answer, type: :model do
 
   it { should have_many(:votes).dependent(:destroy) }
 
-  #TODO: Add test for methods
+  describe Answer do
+    it_behaves_like 'voteable'
+  end
 end

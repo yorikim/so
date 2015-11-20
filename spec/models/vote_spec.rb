@@ -6,5 +6,37 @@ RSpec.describe Vote, type: :model do
   it { should belong_to :user }
   it { should belong_to :voteable }
 
-  #TODO: Add test for methods
+  describe 'change value' do
+    let!(:vote) { create(:question_vote) }
+
+    it 'from -1 to 0' do
+      vote.value = -1
+      expect { vote.change_value(1) }.to change { vote.value }.by(1)
+    end
+
+    it 'from 0 to 1' do
+      vote.value = 0
+      expect { vote.change_value(1) }.to change { vote.value }.by(1)
+    end
+
+    it 'from 1 to 1' do
+      vote.value = 1
+      expect { vote.change_value(1) }.to change { vote.value }.by(0)
+    end
+
+    it 'from 1 to 0' do
+      vote.value = 1
+      expect { vote.change_value(-1) }.to change { vote.value }.by(-1)
+    end
+
+    it 'from 0 to -1' do
+      vote.value = 0
+      expect { vote.change_value(-1) }.to change { vote.value }.by(-1)
+    end
+
+    it 'from -1 to -1' do
+      vote.value = -1
+      expect { vote.change_value(-1) }.to change { vote.value }.by(0)
+    end
+  end
 end

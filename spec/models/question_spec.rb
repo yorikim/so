@@ -9,5 +9,8 @@ RSpec.describe Question, type: :model do
   it { should have_many(:attachments).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
 
-  #TODO: Add test for methods
+
+  describe Question do
+    it_behaves_like 'voteable'
+  end
 end
