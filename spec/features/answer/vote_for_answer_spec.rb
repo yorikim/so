@@ -34,14 +34,14 @@ feature 'Vote for the question' do
     sign_in user
     visit question_path(question)
 
-    expect(page.body).to_not have_link href: vote_up_question_answer_path(question, own_answer)
-    expect(page.body).to_not have_link href: vote_down_question_answer_path(question, own_answer)
+    expect(page.body).to_not have_link href: vote_up_answer_path(own_answer)
+    expect(page.body).to_not have_link href: vote_down_answer_path(own_answer)
   end
 
   scenario 'Anonymous user is trying to vote for the question' do
     visit question_path(question)
 
-    expect(page.body).to_not have_link href: vote_up_question_answer_path(question, foreign_answer)
-    expect(page.body).to_not have_link href: vote_down_question_answer_path(question, own_answer)
+    expect(page.body).to_not have_link href: vote_up_answer_path(foreign_answer)
+    expect(page.body).to_not have_link href: vote_down_answer_path(own_answer)
   end
 end

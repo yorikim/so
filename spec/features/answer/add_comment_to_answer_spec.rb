@@ -10,7 +10,7 @@ feature 'Add comments to the answer' do
     visit question_path(question)
   end
 
-  scenario 'User adds comments to the question', js: true do
+  scenario 'User adds comments to the answer', js: true do
     within '.answer-container' do
       click_on 'Add Comment'
 

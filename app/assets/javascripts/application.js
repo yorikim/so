@@ -4,7 +4,12 @@
 //= require private_pub
 //= require cocoon
 //= require bootstrap-sprockets
+
 //= require mvpready-core
 //= require mvpready-helpers
 //= require mvpready-admin
+
+//= require mustache
+//= require jquery.mustache
+
 //= require_tree .

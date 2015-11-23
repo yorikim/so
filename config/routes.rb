@@ -8,12 +8,12 @@ Rails.application.routes.draw do
   end
 
   concern :commentable do
-    resources :comments#, only: [:create]
+    resources :comments, only: [:create]
   end
 
-  resources 'questions', concerns: [:voteable, :commentable], except: [:edit] do
-    resources 'answers', concerns: [:voteable, :commentable], except: [:index, :show, :edit] do
-      post 'best_answer', on: :member
+  resources 'questions', concerns: [:voteable, :commentable], except: [:edit], shallow: true do
+    resources 'answers', concerns: [:voteable, :commentable], except: [:index, :show, :edit], shallow: true do
+      post 'make_best', on: :member
     end
   end
 end

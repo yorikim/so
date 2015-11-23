@@ -13,7 +13,7 @@ RSpec.describe CommentsController, type: :controller do
       end
 
       it 'should add comment to the answer' do
-        expect { post :create, question_id: question, answer_id: answer, comment: attributes_for(:answer_comment), format: :js }.to change(answer.comments, :count).by(1)
+        expect { post :create, answer_id: answer, comment: attributes_for(:answer_comment), format: :js }.to change(answer.comments, :count).by(1)
         should respond_with(200)
       end
     end
@@ -21,7 +21,7 @@ RSpec.describe CommentsController, type: :controller do
     context 'with invalid attributes' do
       it "shouldn't create a comment" do
         expect { post :create, question_id: question, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
-        expect { post :create, question_id: question, answer_id: answer, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
+        expect { post :create, answer_id: answer, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
 
         should respond_with(500)
       end

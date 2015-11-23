@@ -43,14 +43,10 @@ RSpec.describe AnswersController, type: :controller do
     let(:foreign_answer) { create(:answer, question: own_question) }
 
     context 'with valid attributes' do
-      before { patch :update, question_id: foreign_question, id: own_answer, answer: {body: 'new body'}, format: :js }
+      before { patch :update, id: own_answer, answer: {body: 'new body'}, format: :js }
 
       it 'assings the requested answer to @answer' do
         expect(assigns(:answer)).to eq own_answer
-      end
-
-      it 'assigns to question' do
-        expect(assigns(:question)).to eq foreign_question
       end
 
       it 'edit the question' do
@@ -94,24 +90,24 @@ RSpec.describe AnswersController, type: :controller do
     let(:foreign_answer) { create(:answer, question: own_question) }
 
     context 'own question' do
-      before { post :best_answer, question_id: own_question, id: foreign_answer, format: :js }
+      before { post :make_best, question_id: own_question, id: foreign_answer, format: :js }
 
       it 'should update question' do
         own_question.reload
         expect(own_question.best_answer.id).to eq foreign_answer.id
       end
 
-      it { should render_template :best_answer }
+      it { should render_template :make_best }
     end
 
     context 'foreign question' do
-      before { post :best_answer, question_id: foreign_question, id: own_answer, format: :js }
+      before { post :make_best, question_id: foreign_question, id: own_answer, format: :js }
 
       it 'not marks as best answer' do
         expect(own_answer.best).to eq false
       end
 
-      it { should render_template :best_answer }
+      it { should render_template :make_best }
     end
   end
 
@@ -145,13 +141,13 @@ RSpec.describe AnswersController, type: :controller do
     before { sign_in user }
 
     it 'increase vote value for the foreign answer' do
-      post :vote_up, question_id: question, id: foreign_answer
+      post :vote_up, id: foreign_answer
       foreign_answer.reload
       expect(foreign_answer.vote_value).to eq 1
     end
 
     it 'response JSON object' do
-      post :vote_up, question_id: question, id: foreign_answer
+      post :vote_up, id: foreign_answer
 
       result = JSON.parse(response.body)
       expect(result['vote_value']).to eq 1
@@ -159,7 +155,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it 'vote up the own question' do
-      expect { post :vote_up, question_id: question, id: own_answer }.to_not change(Vote, :count)
+      expect { post :vote_up, id: own_answer }.to_not change(Vote, :count)
     end
   end
 
@@ -173,13 +169,13 @@ RSpec.describe AnswersController, type: :controller do
     before { sign_in user }
 
     it 'decrease vote value for the foreign answer' do
-      post :vote_down, question_id: question, id: foreign_answer
+      post :vote_down, id: foreign_answer
       foreign_answer.reload
       expect(foreign_answer.vote_value).to eq -1
     end
 
     it 'response JSON object' do
-      post :vote_down, question_id: question, id: foreign_answer
+      post :vote_down, id: foreign_answer
 
       result = JSON.parse(response.body)
       expect(result['vote_value']).to eq -1
@@ -187,7 +183,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it 'vote down the own question' do
-      expect { post :vote_down, question_id: question, id: own_answer }.to_not change(Vote, :count)
+      expect { post :vote_down, id: own_answer }.to_not change(Vote, :count)
     end
   end
 end

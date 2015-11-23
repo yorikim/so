@@ -27,7 +27,7 @@ $ ->
         </div>', question);
 
     $('.questions').append(wrapper);
-    $('input[name="comment[body]"]').val('')
+    $('textarea[name="comment[body]"]').val('')
 
   question_id = $('.question-container').data('questionId')
   PrivatePub.subscribe "/questions/" + question_id + "/comments/new", (data, channel) ->
@@ -35,5 +35,5 @@ $ ->
     comment = $.parseJSON(data.comment);
     $('#question-comments').append('<p>' + comment.body + '</p>')
     $('.new_comment').hide()
-    $('input[name="comment[body]"]').val('')
+    $('textarea[name="comment[body]"]').val('')
 

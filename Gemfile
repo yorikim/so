@@ -40,6 +40,7 @@ gem 'cocoon'
 gem 'remotipart'
 gem 'private_pub'
 gem 'thin'
+gem 'mustache-js-rails'
 
 gem 'pg'
 gem 'devise'

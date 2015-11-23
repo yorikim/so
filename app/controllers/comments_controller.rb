@@ -23,7 +23,8 @@ class CommentsController < ApplicationController
       when 'question'
         "/questions/#{params[:question_id]}"
       when 'answer'
-        "/questions/#{params[:question_id]}/answers"
+        answer = Answer.find(params[:answer_id])
+        "/questions/#{answer.question_id}/answers"
     end
   end
 

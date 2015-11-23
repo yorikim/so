@@ -20,5 +20,5 @@ $ ->
     comment = $.parseJSON(data.comment)
     $('#answer-container-' + comment.commentable_id + ' .comments').append('<p>' + comment.body + '</p>')
     $('.new_comment').hide()
-    $('input[name="comment[body]"]').val('')
+    $('textarea[name="comment[body]"]').val('')
 
