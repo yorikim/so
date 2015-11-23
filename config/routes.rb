@@ -7,8 +7,12 @@ Rails.application.routes.draw do
     post 'vote_down', on: :member
   end
 
-  resources 'questions', concerns: :voteable, except: [:edit] do
-    resources 'answers', concerns: :voteable, except: [:index, :show, :edit] do
+  concern :commentable do
+    resources :comments#, only: [:create]
+  end
+
+  resources 'questions', concerns: [:voteable, :commentable], except: [:edit] do
+    resources 'answers', concerns: [:voteable, :commentable], except: [:index, :show, :edit] do
       post 'best_answer', on: :member
     end
   end

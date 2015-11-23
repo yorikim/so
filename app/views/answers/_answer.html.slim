@@ -24,12 +24,22 @@
     .attachments
       = render answer.attachments
 
+    .comments
+      = render answer.comments
+      = subscribe_to "/questions/#{@question.id}/comments/new"
+
+    - if current_user
+      = render partial: 'comments/form', locals: {comments_path: [@question, answer, @comment], submit_title: 'Create comment'}
+
     .answer-actions
       - if is_current_user_author_of?(@question)
         - if answer.best?
           span.label.label-success Best Answer
         - else
           = link_to 'Mark as best answer', question_answer_path(@question, answer) + '/best_answer', class: 'btn btn-info set-best-answer-link', id: "set-best-answer-#{answer.id}", remote: true, method: :post
+
+      - if current_user
+        = link_to 'Add Comment', '', class: 'btn btn-info add-answer-comment-link', data: {answer_id: answer.id}
 
       - if is_current_user_author_of?(answer)
         = link_to 'Edit answer', '', class: 'btn btn-info edit-answer-link', data: {answer_id: answer.id}

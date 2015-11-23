@@ -1,7 +1,8 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
+
   include VoteableController
 
-  before_action :authenticate_user!
   before_action :load_question
   before_action :load_answer, except: [:create]
 
@@ -10,6 +11,7 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     @answer.save
+    @comment = @answer.comments.build
   end
 
   def update
@@ -23,6 +25,7 @@ class AnswersController < ApplicationController
   def best_answer
     if current_user.author_of?(@question)
       @answer.mark_as_best
+      @comment = @answer.comments.build
     else
       flash[:notice] = 'You have no authority to set best answer.'
     end

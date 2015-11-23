@@ -1,4 +1,11 @@
-.question-container
+- flash.each do |name, msg|
+  = content_tag :div, msg, class: name
+
+= subscribe_to "/questions/#{@question.id}/answers/new"
+= subscribe_to "/questions/#{@question.id}/answers/comments/new"
+= subscribe_to "/questions/#{@question.id}/comments/new"
+
+.question-container data-question-id=@question.id
   .heading-block
     h4#question-title = @question.title
 
@@ -25,8 +32,13 @@
       = link_to 'Edit question', '', class: 'btn btn-info edit-question-link', data: {question_id: @question.id}
       = link_to 'Remove question', question_path(@question), class: 'btn btn-danger remove-question-link', data: {question_id: @question.id}, :method => :delete
 
-- flash.each do |name, msg|
-  = content_tag :div, msg, class: name
+  - if current_user
+    = link_to 'Add Comment', '', class: 'btn btn-info add-question-comment-link', data: {question_id: @question.id}
+    = render partial: 'comments/form', locals: {comments_path: [@question, @comment], submit_title: 'Create comment'}
+
+  #question-comments.comments
+    = render @question.comments
+
 
 .heading-block
   h4#answers-count
@@ -34,6 +46,7 @@
     |  answers
 .answers
   = render @question.answers.order('best desc')
+
 
 - if user_signed_in?
   .heading-block

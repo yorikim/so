@@ -38,6 +38,8 @@ gem 'carrierwave'
 gem 'slim-rails'
 gem 'cocoon'
 gem 'remotipart'
+gem 'private_pub'
+gem 'thin'
 
 gem 'pg'
 gem 'devise'

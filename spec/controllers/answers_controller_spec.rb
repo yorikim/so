@@ -15,6 +15,11 @@ RSpec.describe AnswersController, type: :controller do
         post :create, question_id: question, answer: attributes_for(:answer), format: :js
         should render_template :create
       end
+
+      it 'assigns a new comment' do
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:answer).comments.first).to be_a_new(Comment)
+      end
     end
 
     context 'with invalid attributes' do
