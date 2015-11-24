@@ -22,8 +22,14 @@ RSpec.describe CommentsController, type: :controller do
       it "shouldn't create a comment" do
         expect { post :create, question_id: question, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
         expect { post :create, answer_id: answer, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
+      end
 
-        should respond_with(500)
+      it 'should render with 422' do
+        expect { post :create, question_id: question, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
+        should respond_with(422)
+
+        expect { post :create, answer_id: answer, comment: attributes_for(:invalid_comment), format: :js }.to_not change(Comment, :count)
+        should respond_with(422)
       end
     end
   end

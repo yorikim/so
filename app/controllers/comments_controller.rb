@@ -8,10 +8,9 @@ class CommentsController < ApplicationController
 
     if @comment.save
       PrivatePub.publish_to "#{comments_path}/comments/new", comment: @comment.to_json
-
-      render nothing: true, :status => 200
+      render nothing: true
     else
-      render nothing: true, :status => 500
+      render json: @comment.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -29,11 +28,11 @@ class CommentsController < ApplicationController
   end
 
   def load_commentable
-    parent_klasses = %w[answer question]
-
-    if klass = parent_klasses.detect { |pk| params[:"#{pk}_id"].present? }
-      @commentable_name = klass
-      @commentable = klass.camelize.constantize.find params[:"#{klass}_id"]
+    params.each do |name, value|
+      if name =~ /(.+)_id$/
+        @commentable_name = $1
+        @commentable = $1.classify.constantize.find(value)
+      end
     end
   end
 
