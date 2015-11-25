@@ -6,6 +6,6 @@ $('.question-errors').html('<%= j message %>');
 $('#question-title').text('<%= @question.title %>');
 $('#question-body').text('<%= @question.body %>');
 $('#question-attachments').html('<%= j render @question.attachments %>');
-
+$('form#edit_question').html('<%= j render partial: 'form', locals: {submit_title: 'Save question', remote: true}%>')
 $('form#edit_question_<%= @question.id %>').hide();
 <% end %>

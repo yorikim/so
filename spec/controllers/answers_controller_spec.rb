@@ -15,11 +15,6 @@ RSpec.describe AnswersController, type: :controller do
         post :create, question_id: question, answer: attributes_for(:answer), format: :js
         should render_template :create
       end
-
-      it 'assigns a new comment' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :js
-        expect(assigns(:answer).comments.first).to be_a_new(Comment)
-      end
     end
 
     context 'with invalid attributes' do
@@ -111,7 +106,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy' do
+  describe 'DELETE #destroy', js: true do
     login_user :user_with_questions
     let!(:own_question) { @user.questions.first }
     let(:own_answer) { own_question.answers.first }
@@ -125,8 +120,8 @@ RSpec.describe AnswersController, type: :controller do
     let(:foreign_question) { another_user.questions.first }
     let(:foreign_answer) { foreign_question.answers.first }
 
-    it 'not remove foreign question' do
-      expect { delete :destroy, question_id: foreign_question, id: foreign_answer, format: :js }.to_not change(Answer, :count)
+    it 'not remove foreign answer' do
+      expect { delete :destroy, id: foreign_answer, format: :js }.to_not change(Answer, :count)
       should render_template :destroy
     end
   end

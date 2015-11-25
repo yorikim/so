@@ -12,7 +12,6 @@ feature 'Add files to the question' do
     fill_in 'question_title', with: 'New question title'
     fill_in 'question_body', with: 'New question body'
 
-
     all('input[type="file"]').first.set get_correct_filepath("#{Rails.root}/spec/support/fixtures/test1.txt")
 
     click_on 'Add attachment'

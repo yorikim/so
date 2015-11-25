@@ -9,7 +9,7 @@
   .form-group
     h4 Attachments
     .attachments
-      = f.fields_for :attachments do |a|
+      = f.fields_for :attachments, (f.object.persisted? ? f.object.attachments : f.object.attachments.build) do |a|
         = render 'attachments/attachment_fields', f: a, attachment: (a.object.new_record? ? nil : a.object.file)
 
       .form-group

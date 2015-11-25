@@ -29,7 +29,7 @@
       = subscribe_to "/questions/#{@question.id}/comments/new"
 
     - if current_user
-      = render partial: 'comments/form', locals: {comments_path: [answer, @comment], submit_title: 'Create comment'}
+      = render partial: 'comments/form', locals: {comments_path: [answer, @answer.comments.build], submit_title: 'Create comment'}
 
     .answer-actions
       - if is_current_user_author_of?(@question)
