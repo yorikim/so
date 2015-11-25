@@ -3,47 +3,45 @@ class AnswersController < ApplicationController
 
   include VoteableController
 
-  before_action :load_question, only: [:new, :create]
   before_action :load_answer, except: [:create]
+  before_action :load_question, only: [:create, :make_best]
+  before_action only: [:update, :destroy] { check_permissions!(@answer) }
+  before_action only: [:make_best] { check_permissions!(@question) }
+
+  after_action :public_answer, only: :create
+
+  respond_to :js
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-
-    @answer.save
-    @comment = @answer.comments.build
+    respond_with(@answer = @question.answers.create(answer_params) { |a| a.user = current_user })
   end
 
   def update
-    if current_user.author_of?(@answer)
-      @answer.update(answer_params)
-    else
-      @answer.errors.add(:base, 'You have no authority to edit this answer.')
-    end
+    @answer.update(answer_params)
+    respond_with(@answer)
   end
 
   def make_best
-    @question = @answer.question
-    if current_user.author_of?(@question)
-      @answer.mark_as_best
-      @comment = @answer.comments.build
-    else
-      flash[:notice] = 'You have no authority to set best answer.'
-    end
+    respond_with(@answer.mark_as_best)
   end
 
   def destroy
-    if @answer && current_user.author_of?(@answer)
-      @answer.destroy
-    else
-      flash[:notice] = 'You have no authority to remove this answer.'
-    end
+    respond_with(@answer.destroy)
   end
+
 
   private
 
+  def public_answer
+    PrivatePub.publish_to "/questions/#{@question.id}/answers/new", answer: @answer.to_json
+  end
+
   def load_question
-    @question = Question.find(params[:question_id])
+    if params[:question_id]
+      @question = Question.find(params[:question_id])
+    else
+      @question = @answer.question
+    end
   end
 
   def load_answer

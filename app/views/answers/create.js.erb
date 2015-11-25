@@ -1,5 +1,3 @@
-<% publish_to "/questions/#{@question.id}/answers/new" do %>
-  $('.answers').append('<%= j render @answer %>');
-  $('#answers-count').text("<%= @question.answers.count %> answers")
-<% end %>
+$('.answers').append('<%= j render @answer %>');
+$('#answers-count').text("<%= @question.answers.count %> answers")
 $('.new_answer #answer_body').val('');

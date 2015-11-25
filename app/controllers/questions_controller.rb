@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :update, :destroy, :vote_up, :vote_down]
   before_action :build_answer, only: :show
   before_action :build_comment, only: :show
-  before_action :check_permissions!, only: [:update, :destroy]
+  before_action only: [:update, :destroy] { check_permissions!(@question) }
 
   after_action :build_attachment, only: [:new]
   after_action :public_question, only: :create
@@ -40,12 +40,6 @@ class QuestionsController < ApplicationController
 
 
   private
-
-  def check_permissions!
-    unless current_user.author_of?(@question)
-      redirect_to questions_path, notice: 'You have no authority for this action'
-    end
-  end
 
   def load_question
     @question = Question.find(params[:id])
