@@ -10,7 +10,7 @@ class AnswersController < ApplicationController
 
   after_action :public_answer, only: :create
 
-  respond_to :js
+  respond_to :js, :html
 
   def create
     respond_with(@answer = @question.answers.create(answer_params) { |a| a.user = current_user })

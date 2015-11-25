@@ -11,6 +11,7 @@ class QuestionsController < ApplicationController
   after_action :build_attachment, only: [:new]
   after_action :public_question, only: :create
 
+  respond_to :html
   respond_to :js, only: :update
 
   def index

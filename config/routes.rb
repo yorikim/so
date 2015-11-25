@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   end
 
   concern :commentable do
-    resources :comments, only: [:create]
+    resources :comments#, only: [:create]
   end
 
   resources :questions, concerns: [:voteable, :commentable], except: [:edit], shallow: true do
