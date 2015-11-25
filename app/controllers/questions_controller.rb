@@ -1,7 +1,8 @@
 class QuestionsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :destroy, :vote_up, :vote_down]
+
   include VoteableController
 
-  before_action :authenticate_user!, only: [:new, :create, :destroy, :vote_up, :vote_down]
   before_action :load_question, only: [:show, :update, :destroy, :vote_up, :vote_down]
 
   def index
@@ -17,6 +18,8 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
 
     if @question.save
+      PrivatePub.publish_to "/questions/new", question: @question.to_json(only: [:id, :title], methods: :vote_value)
+
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
@@ -26,6 +29,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.build
     @answer.attachments.build
+    @comment = @question.comments.build
   end
 
   def update

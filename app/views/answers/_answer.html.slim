@@ -4,12 +4,12 @@
       .vote-container.col-lg-1
         - if current_user && !is_current_user_author_of?(answer)
           .vote-up data-answer-id=answer.id
-            = link_to "#{vote_up_question_answer_path(@question, answer)}", class: 'answer-vote-up-link', data: {answer_id: answer.id}, remote: true, method: :post do
+            = link_to vote_up_answer_path(answer), class: 'answer-vote-up-link', data: {answer_id: answer.id}, remote: true, method: :post do
               i.fa.fa-sort-asc
         span.vote-value = @question.vote_value
         - if current_user && !is_current_user_author_of?(answer)
           .vote-down data-answer-id=answer.id
-            = link_to "#{vote_down_question_answer_path(@question, answer)}", class: 'answer-vote-down-link', remote: true, method: :post do
+            = link_to vote_down_answer_path(answer), class: 'answer-vote-down-link', remote: true, method: :post do
               i.fa.fa-sort-desc
 
       - if answer.best?
@@ -19,18 +19,28 @@
 
 
     - if is_current_user_author_of?(answer)
-      = render partial: 'answers/form', locals: {question: @question, answer: answer, submit_title: 'Save answer'}
+      = render partial: 'answers/form', locals: {question: nil, answer: answer, submit_title: 'Save answer'}
 
     .attachments
       = render answer.attachments
+
+    .comments
+      = render answer.comments
+      = subscribe_to "/questions/#{@question.id}/comments/new"
+
+    - if current_user
+      = render partial: 'comments/form', locals: {comments_path: [answer, @comment], submit_title: 'Create comment'}
 
     .answer-actions
       - if is_current_user_author_of?(@question)
         - if answer.best?
           span.label.label-success Best Answer
         - else
-          = link_to 'Mark as best answer', question_answer_path(@question, answer) + '/best_answer', class: 'btn btn-info set-best-answer-link', id: "set-best-answer-#{answer.id}", remote: true, method: :post
+          = link_to 'Mark as best answer', make_best_answer_path(answer), class: 'btn btn-info set-best-answer-link', id: "set-best-answer-#{answer.id}", remote: true, method: :post
+
+      - if current_user
+        = link_to 'Add Comment', '', class: 'btn btn-info add-answer-comment-link', remote: true, data: {answer_id: answer.id}
 
       - if is_current_user_author_of?(answer)
         = link_to 'Edit answer', '', class: 'btn btn-info edit-answer-link', data: {answer_id: answer.id}
-        = link_to 'Remove answer', question_answer_path(@question, answer), class: 'btn btn-danger remove-answer-link', remote: true, :method => :delete
+        = link_to 'Remove answer', answer_path(answer), class: 'btn btn-danger remove-answer-link', remote: true, :method => :delete

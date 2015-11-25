@@ -32,6 +32,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
 
+    it 'assigns a new comment' do
+      expect(assigns(:question).comments.first).to be_a_new(Comment)
+    end
+
     it { should render_template :show }
   end
 

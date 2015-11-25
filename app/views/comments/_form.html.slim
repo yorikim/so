@@ -1,0 +1,6 @@
+= form_for local_assigns[:comments_path], remote: true do |f|
+  .form-group
+    = f.label :body, 'Body'
+    = f.text_area :body, class: 'form-control', placeholder: 'Body'
+
+  = f.submit submit_title, class: 'btn btn-secondary'
