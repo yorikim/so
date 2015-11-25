@@ -13,7 +13,7 @@ class AnswersController < ApplicationController
   respond_to :js, :html
 
   def create
-    respond_with(@answer = @question.answers.create(answer_params) { |a| a.user = current_user })
+    respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
 
   def update
