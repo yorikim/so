@@ -9,5 +9,7 @@ module OmniauthMacros
             email: 'mockuser@mail.ru',
         },
     )
+
+    OmniAuth.config.add_mock(:twitter, {:uid => '12345'})
   end
 end

@@ -6,6 +6,8 @@ FactoryGirl.define do
     password '12345678'
     password_confirmation '12345678'
 
+    confirmed_at Time.now
+
     factory :user_with_questions do
       transient do
         questions_count 5

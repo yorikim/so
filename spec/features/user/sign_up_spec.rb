@@ -1,16 +1,22 @@
 require_relative '../feature_helper'
 
 feature 'Sign up' do
-  given!(:user) { create(:user) }
 
   scenario 'Un-registered user is trying to sign up' do
+    clear_emails
+
     sign_up 'new_user@mail.ru', '12345678', '12345678'
 
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
-    expect(current_path).to eq root_path
+    open_email('new_user@mail.ru')
+    current_email.click_link 'Confirm my account'
+
+    expect(page).to have_content 'Your email address has been successfully confirmed.'
+    expect(current_path).to eq new_user_session_path
   end
 
   scenario 'User is trying to register with already registered email, short password and wrong confirmation' do
+    user = create(:user)
+
     sign_up user.email, '1234', '8765'
 
     expect(page).to have_content 'Email has already been taken'
