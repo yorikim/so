@@ -44,7 +44,10 @@ gem 'mustache-js-rails'
 
 gem 'pg'
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
 # gem 'devise-i18n'
+
 
 gem 'responders', '~> 2.0'
 
