@@ -21,9 +21,4 @@ Rails.application.routes.draw do
       post 'make_best', on: :member
     end
   end
-
-  namespace :omniauth_callbacks do
-    get 'facebook'
-    get 'twitter'
-  end
 end
