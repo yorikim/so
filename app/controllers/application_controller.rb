@@ -3,20 +3,16 @@ require "application_responder"
 class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
 
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def check_permissions!(obj)
-    unless current_user.author_of?(obj)
-      message = 'You have no authority for this action'
-      respond_to do |format|
-        format.html { redirect_to questions_path, notice: message }
-        format.js do
-          obj.errors.add(:user, message)
-          render
-        end
-      end
+  rescue_from CanCan::AccessDenied do |exception|
+    if request.format == 'text/javascript'
+      exception.subject.errors.add(:user, exception.message)
+      render exception.action
+    else
+      redirect_to root_path, alert: exception.message
     end
   end
+
+  check_authorization :unless => :devise_controller?
 end

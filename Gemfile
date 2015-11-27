@@ -48,6 +48,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 # gem 'devise-i18n'
+gem 'cancan'
 
 
 gem 'responders', '~> 2.0'
