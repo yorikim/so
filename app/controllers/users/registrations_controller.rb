@@ -9,6 +9,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     password = Devise.friendly_token[0, 20]
     @user = User.create!(user_params.merge(password: password, password_confirmation: password))
 
+    session.delete(:devise_omniauth_provider)
+    session.delete(:devise_omniauth_uid)
+
     redirect_to new_user_session_path
     # sign_in(@user)
   end
@@ -18,8 +21,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def load_authorization_params
     @authorization_params = {
-        provider: session['devise.omniauth.provider'],
-        uid: session['devise.omniauth.uid'],
+        provider: session['devise_omniauth_provider'],
+        uid: session['devise_omniauth_uid'],
     }
   end
 
