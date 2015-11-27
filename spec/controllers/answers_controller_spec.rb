@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let!(:question) { create(:question_with_answers) }
+  let!(:question) { create(:question) }
 
   describe 'POST #create' do
     login_user :user_with_questions
@@ -85,7 +85,7 @@ RSpec.describe AnswersController, type: :controller do
     let(:foreign_answer) { create(:answer, question: own_question) }
 
     context 'own question' do
-      before { post :make_best, question_id: own_question, id: foreign_answer, format: :js }
+      before { post :make_best, question: own_question, id: foreign_answer, format: :js }
 
       it 'should update question' do
         own_question.reload
@@ -96,7 +96,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'foreign question' do
-      before { post :make_best, question_id: foreign_question, id: own_answer, format: :js }
+      before { post :make_best, question: foreign_question, id: own_answer, format: :js }
 
       it 'not marks as best answer' do
         expect(own_answer.best).to eq false

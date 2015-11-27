@@ -44,7 +44,11 @@ gem 'mustache-js-rails'
 
 gem 'pg'
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 # gem 'devise-i18n'
+
 
 gem 'responders', '~> 2.0'
 
@@ -66,8 +70,11 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'capybara'
   # gem 'capybara-webkit'
+  gem 'capybara-email'
   gem 'selenium-webdriver'
   gem 'database_cleaner'
 end
+
+gem "letter_opener", :group => :development
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]

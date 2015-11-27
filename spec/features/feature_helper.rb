@@ -1,4 +1,5 @@
 require_relative '../rails_helper'
+require 'capybara/email/rspec'
 
 RSpec.configure do |config|
   # Capybara.javascript_driver = :webkit

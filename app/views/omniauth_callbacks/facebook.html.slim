@@ -1,0 +1,4 @@
+-if @user.errors.any?
+  #error_explanation
+    - @user.errors.full_messages.each do |msg|
+      = msg
