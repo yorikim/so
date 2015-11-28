@@ -5,12 +5,14 @@ class AnswersController < ApplicationController
 
   before_action :load_answer, except: [:create]
   before_action :load_question, only: [:create, :make_best]
-  before_action only: [:update, :destroy] { check_permissions!(@answer) }
-  before_action only: [:make_best] { check_permissions!(@question) }
+  # before_action only: [:update, :destroy] { check_permissions!(@answer) }
+  # before_action only: [:make_best] { check_permissions!(@question) }
 
   after_action :public_answer, only: :create
 
   respond_to :js, :html
+
+  authorize_resource
 
   def create
     respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))

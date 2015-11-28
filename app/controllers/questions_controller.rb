@@ -6,13 +6,14 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :update, :destroy, :vote_up, :vote_down]
   before_action :build_answer, only: :show
   before_action :build_comment, only: :show
-  before_action only: [:update, :destroy] { check_permissions!(@question) }
 
   after_action :build_attachment, only: [:new]
   after_action :public_question, only: :create
 
   respond_to :html
   respond_to :js, only: :update
+
+  authorize_resource
 
   def index
     respond_with(@questions = Question.all)

@@ -11,9 +11,6 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :authorizations, reject_if: :all_blank, allow_destroy: true
 
-  def author_of?(obj)
-    id == obj.user_id
-  end
 
   def self.find_for_oauth(auth)
     unless is_correct_auth(auth)

@@ -2,12 +2,12 @@
   .answer-container id="answer-container-#{answer.id}"
     .answer-content.row
       .vote-container.col-lg-1
-        - if current_user && !is_current_user_author_of?(answer)
+        - if can?(:vote, answer)
           .vote-up data-answer-id=answer.id
             = link_to vote_up_answer_path(answer), class: 'answer-vote-up-link', data: {answer_id: answer.id}, remote: true, method: :post do
               i.fa.fa-sort-asc
         span.vote-value = @question.vote_value
-        - if current_user && !is_current_user_author_of?(answer)
+        - if can?(:vote, answer)
           .vote-down data-answer-id=answer.id
             = link_to vote_down_answer_path(answer), class: 'answer-vote-down-link', remote: true, method: :post do
               i.fa.fa-sort-desc
@@ -18,7 +18,7 @@
         .answer-content.answer-content-info.col-lg-11 =answer.body
 
 
-    - if is_current_user_author_of?(answer)
+    - if can?(:manage, answer)
       = render partial: 'answers/form', locals: {question: nil, answer: answer, submit_title: 'Save answer'}
 
     .attachments
@@ -32,7 +32,7 @@
       = render partial: 'comments/form', locals: {comments_path: [answer, @answer.comments.build], submit_title: 'Create comment'}
 
     .answer-actions
-      - if is_current_user_author_of?(@question)
+      - if can?(:manage, @question)
         - if answer.best?
           span.label.label-success Best Answer
         - else
@@ -41,6 +41,6 @@
       - if current_user
         = link_to 'Add Comment', '', class: 'btn btn-info add-answer-comment-link', remote: true, data: {answer_id: answer.id}
 
-      - if is_current_user_author_of?(answer)
+      - if can?(:manage, answer)
         = link_to 'Edit answer', '', class: 'btn btn-info edit-answer-link', data: {answer_id: answer.id}
         = link_to 'Remove answer', answer_path(answer), class: 'btn btn-danger remove-answer-link', remote: true, :method => :delete

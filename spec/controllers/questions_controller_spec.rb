@@ -4,7 +4,10 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
-    before { get :index }
+    before do
+      sign_out :user
+      get :index
+    end
 
     it 'insert an array of questions' do
       expect(assigns(:questions)).to match_array(questions)
@@ -18,7 +21,10 @@ RSpec.describe QuestionsController, type: :controller do
     let(:question) { user.questions.first }
     let(:answers) { question.answers }
 
-    before { get :show, id: question }
+    before do
+      sign_out :user
+      get :show, id: question
+    end
 
     it 'assings the requested question to @question' do
       expect(assigns(:question)).to eq (question)
@@ -148,7 +154,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'not remove foreign question' do
       expect { delete :destroy, id: foreign_question }.to_not change(Question, :count)
-      should redirect_to questions_path
+      should redirect_to root_path
     end
   end
 
