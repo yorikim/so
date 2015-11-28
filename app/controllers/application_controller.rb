@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     if request.format == 'text/javascript'
-      exception.subject.errors.add(:user, exception.message)
+      flash[:error] = exception.message
       render exception.action
     else
       redirect_to root_path, alert: exception.message
