@@ -48,7 +48,7 @@ RSpec.describe Api::V1::ProfilesController, type: :controller do
     end
   end
 
-  describe ' GET /other_users ' do
+  describe ' GET /index ' do
     let(:me) { create(:user) }
     let!(:other_users) { create_list(:user, 5) }
     let(:access_token) { create(:access_token, resource_owner_id: me.id) }
