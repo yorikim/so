@@ -73,11 +73,15 @@ RSpec.describe Api::V1::ProfilesController, type: :controller do
         end
       end
     end
-  end
 
-  # %w(password encrypted_password).each do |attr|
-  #   it "does not contain #{attr}" do
-  #     expect(response.body).to_not have_json_path(attr)
-  #   end
-  # end
+    %w(password encrypted_password).each do |attr|
+      it "does not contain #{attr}" do
+        json = JSON.parse(response.body)
+
+        json.each do |user|
+          expect(user.to_json).to_not have_json_path(attr)
+        end
+      end
+    end
+  end
 end
