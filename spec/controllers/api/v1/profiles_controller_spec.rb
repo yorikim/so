@@ -53,7 +53,7 @@ RSpec.describe Api::V1::ProfilesController, type: :controller do
     let!(:other_users) { create_list(:user, 5) }
     let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
-    before { get :other_users, format: :json, access_token: access_token.token }
+    before { get :index, format: :json, access_token: access_token.token }
 
     it 'returns other users ' do
       expect(response.body).to be_json_eql(other_users.to_json)

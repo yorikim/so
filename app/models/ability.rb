@@ -28,5 +28,8 @@ class Ability
     alias_action :vote_up, :vote_down, to: :vote
     can :vote, [Question, Answer]
     cannot :vote, [Question, Answer], user: user
+
+    alias_action :me, :index, to: :use_api
+    can :use_api, :profile
   end
 end
