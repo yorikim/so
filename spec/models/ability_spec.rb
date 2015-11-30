@@ -41,6 +41,7 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :vote, create(:answer, user: other), user: user }
     it { should_not be_able_to :vote, create(:answer, user: user), user: user }
 
-    it { should be_able_to :use_api, :profile}
+    it { should be_able_to :use_profile_api, :profile}
+    it { should be_able_to :use_question_api, :question}
   end
 end
