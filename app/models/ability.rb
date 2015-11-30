@@ -34,5 +34,8 @@ class Ability
 
     alias_action :show, :index, :create, to: :use_question_api
     can :use_question_api, :question
+
+    alias_action :show, :index, :create, to: :use_answer_api
+    can :use_answer_api, :answer
   end
 end

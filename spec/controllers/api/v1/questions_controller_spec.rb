@@ -55,10 +55,8 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
           expect(response.body).to have_json_size(1).at_path("question/attachments")
         end
 
-        %w(id file created_at updated_at).each do |attr|
-          it "comment object contains #{attr}" do
-            expect(response.body).to be_json_eql(attachment.send(attr.to_sym).to_json).at_path("question/attachments/0/#{attr}")
-          end
+        it "comment object contains file" do
+          expect(response.body).to be_json_eql(attachment.send(:file).to_json).at_path("question/attachments/0/file")
         end
       end
     end
@@ -132,7 +130,7 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
         end
 
         it 'returns 422 code' do
-            post :create, question: attributes_for(:invalid_question), format: :json, access_token: access_token.token
+          post :create, question: attributes_for(:invalid_question), format: :json, access_token: access_token.token
           should respond_with(422)
         end
       end

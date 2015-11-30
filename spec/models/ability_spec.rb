@@ -43,5 +43,6 @@ RSpec.describe Ability, type: :model do
 
     it { should be_able_to :use_profile_api, :profile}
     it { should be_able_to :use_question_api, :question}
+    it { should be_able_to :use_answer_api, :answer}
   end
 end

@@ -8,6 +8,7 @@ class Api::V1::QuestionsController < Api::V1::ApplicationController
   end
 
   def create
+    authorize! :create, Question
     respond_with current_resource_owner.questions.create(question_params)
   end
 
