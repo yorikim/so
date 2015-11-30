@@ -50,6 +50,7 @@ gem 'omniauth-twitter'
 # gem 'devise-i18n'
 gem 'cancan'
 
+gem 'doorkeeper'
 
 gem 'responders', '~> 2.0'
 
@@ -74,6 +75,7 @@ group :test do
   gem 'capybara-email'
   gem 'selenium-webdriver'
   gem 'database_cleaner'
+  gem 'json_spec'
 end
 
 gem "letter_opener", :group => :development

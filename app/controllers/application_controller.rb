@@ -9,10 +9,12 @@ class ApplicationController < ActionController::Base
     if request.format == 'text/javascript'
       flash[:error] = exception.message
       render exception.action
+    elsif request.format == 'application/json'
+      render json: exception.subject.errors.full_messages, status: :unauthorized
     else
       redirect_to root_path, alert: exception.message
     end
   end
 
-  check_authorization :unless => :devise_controller?
+  check_authorization unless: :devise_controller?
 end
