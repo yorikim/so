@@ -18,7 +18,7 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
       end
     end
 
-    context ' authorized ' do
+    context ' authorized ', :lurker do
       let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
       let(:question) { create(:question) }
@@ -74,7 +74,7 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
       end
     end
 
-    context ' authorized ' do
+    context ' authorized ', :lurker do
       let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
       let!(:questions) { create_list(:question, 5) }
@@ -111,7 +111,7 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
       let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
-      context 'with valid attributes' do
+      context 'with valid attributes', :lurker do
         it 'creates a new question' do
           expect { post :create, question: attributes_for(:question), format: :json, access_token: access_token.token }.to change(me.questions, :count).by(1)
         end

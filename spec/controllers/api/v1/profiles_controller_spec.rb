@@ -31,7 +31,7 @@ RSpec.describe Api::V1::ProfilesController, type: :controller do
     end
   end
 
-  describe ' GET /me ' do
+  describe ' GET /me ', :lurker do
     let(:me) { create(:user) }
     let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
@@ -50,7 +50,7 @@ RSpec.describe Api::V1::ProfilesController, type: :controller do
     end
   end
 
-  describe ' GET /index ' do
+  describe ' GET /index ', :lurker do
     let(:me) { create(:user) }
     let!(:other_users) { create_list(:user, 5) }
     let(:other_user) { other_users.first }
