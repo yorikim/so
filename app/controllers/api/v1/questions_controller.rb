@@ -1,4 +1,6 @@
 class Api::V1::QuestionsController < Api::V1::ApplicationController
+  authorize_resource
+
   def index
     respond_with Question.all, each_serializer: QuestionCollectionSerializer
   end

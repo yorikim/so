@@ -29,13 +29,6 @@ class Ability
     can :vote, [Question, Answer]
     cannot :vote, [Question, Answer], user: user
 
-    alias_action :me, :index, to: :use_profile_api
-    can :use_profile_api, :profile
-
-    alias_action :show, :index, :create, to: :use_question_api
-    can :use_question_api, :question
-
-    alias_action :show, :index, :create, to: :use_answer_api
-    can :use_answer_api, :answer
+    can :me, User, id: user.id
   end
 end

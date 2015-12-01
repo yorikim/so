@@ -36,7 +36,6 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
       end
 
       it 'returns success code ' do
-        get :show, question_id: question, id: answer, format: :json, access_token: access_token.token
         expect(response).to be_success
       end
 
@@ -86,7 +85,6 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
       before { get :index, question_id: question, format: :json, access_token: access_token.token }
 
       it 'returns answers' do
-        get :index, question_id: question, format: :json, access_token: access_token.token
         expect(response.body).to be_json_eql(answers.to_json).at_path('answers')
       end
 
@@ -123,6 +121,11 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
         it 'returns success code ' do
           post :create, question_id: question, answer: attributes_for(:answer), format: :json, access_token: access_token.token
           expect(response).to be_success
+        end
+
+        it 'assigns to user' do
+          post :create, question_id: question, answer: attributes_for(:answer), format: :json, access_token: access_token.token
+          expect(response.body).to be_json_eql(me.id).at_path('answer/user_id')
         end
       end
 

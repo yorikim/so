@@ -34,7 +34,6 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
       end
 
       it 'returns success code ' do
-        get :show, id: question, format: :json, access_token: access_token.token
         expect(response).to be_success
       end
 
@@ -84,7 +83,6 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
       before { get :index, format: :json, access_token: access_token.token }
 
       it 'returns questions' do
-        get :index, format: :json, access_token: access_token.token
         expect(response.body).to be_json_eql(questions.to_json).at_path('questions')
       end
 

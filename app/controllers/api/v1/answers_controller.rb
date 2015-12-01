@@ -1,4 +1,5 @@
 class Api::V1::AnswersController < Api::V1::ApplicationController
+  authorize_resource
   before_action :load_question
 
   def index
