@@ -72,6 +72,8 @@ group :development, :test do
   gem 'factory_girl_rails'
 
   gem 'lurker'
+  gem 'kramdown'
+  gem 'pdfkit'
 end
 
 group :test do

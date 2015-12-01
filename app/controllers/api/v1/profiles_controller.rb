@@ -1,5 +1,5 @@
 class Api::V1::ProfilesController < Api::V1::ApplicationController
-  authorize_resource :user
+  authorize_resource class: User
 
   def me
     authorize! :me, current_resource_owner

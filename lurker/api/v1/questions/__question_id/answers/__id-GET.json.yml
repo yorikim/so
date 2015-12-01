@@ -1,0 +1,123 @@
+---
+description: answer
+prefix: answers management
+requestParameters:
+  description: ''
+  type: object
+  additionalProperties: false
+  required: []
+  properties:
+    access_token:
+      description: ''
+      type: string
+      example: aa8e01cdc038d35d00875d0bfad624ace238b3651b8205ca86d77c1df179a5ad
+responseCodes:
+- status: 200
+  successful: true
+  description: ''
+responseParameters:
+  description: ''
+  type: object
+  additionalProperties: false
+  required: []
+  properties:
+    answer:
+      description: ''
+      type: object
+      additionalProperties: false
+      required: []
+      properties:
+        id:
+          description: ''
+          type: integer
+          example: 240
+        question_id:
+          description: ''
+          type: integer
+          example: 431
+        user_id:
+          description: ''
+          type: integer
+          example: 2773
+        body:
+          description: ''
+          type: string
+          example: Answer body 38
+        best:
+          description: ''
+          type: boolean
+          example: false
+        updated_at:
+          description: ''
+          type: string
+          example: '2015-12-01T17:28:29.584Z'
+          format: date-time
+        created_at:
+          description: ''
+          type: string
+          example: '2015-12-01T17:28:29.584Z'
+          format: date-time
+        comments:
+          type: array
+          items:
+            description: ''
+            type: object
+            additionalProperties: false
+            required: []
+            properties:
+              id:
+                description: ''
+                type: integer
+                example: 131
+              user_id:
+                description: ''
+                type: integer
+                example: 2774
+              body:
+                description: ''
+                type: string
+                example: 'Comment #1'
+              updated_at:
+                description: ''
+                type: string
+                example: '2015-12-01T17:28:29.591Z'
+                format: date-time
+              created_at:
+                description: ''
+                type: string
+                example: '2015-12-01T17:28:29.591Z'
+                format: date-time
+        attachments:
+          type: array
+          items:
+            description: ''
+            type: object
+            additionalProperties: false
+            required: []
+            properties:
+              file:
+                description: ''
+                type: object
+                additionalProperties: false
+                required: []
+                properties:
+                  file:
+                    description: ''
+                    type: object
+                    additionalProperties: false
+                    required: []
+                    properties:
+                      url:
+                        description: ''
+                        type: string
+                        example: "/uploads/attachment/file/131/test1.txt"
+extensions:
+  method: GET
+  path_info: "/api/v1/questions/431/answers/240.json"
+  path_params:
+    controller: api/v1/answers
+    action: show
+    question_id: '431'
+    id: '240'
+  query_params:
+    access_token: aa8e01cdc038d35d00875d0bfad624ace238b3651b8205ca86d77c1df179a5ad
