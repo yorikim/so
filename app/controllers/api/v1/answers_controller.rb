@@ -11,7 +11,6 @@ class Api::V1::AnswersController < Api::V1::ApplicationController
   end
 
   def create
-    authorize! :create, Answer
     respond_with @question.answers.create(answer_params.merge(user: current_resource_owner))
   end
 

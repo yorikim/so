@@ -5,13 +5,15 @@ requestParameters:
   description: ''
   type: object
   additionalProperties: false
-  required: []
+  required:
+  - answer
   properties:
     answer:
       description: ''
       type: object
       additionalProperties: false
-      required: []
+      required:
+      - bdy
       properties:
         body:
           description: ''
@@ -29,13 +31,23 @@ responseParameters:
   description: ''
   type: object
   additionalProperties: false
-  required: []
+  required:
+  - answer
   properties:
     answer:
       description: ''
       type: object
       additionalProperties: false
-      required: []
+      required:
+      - id
+      - question_id
+      - user_id
+      - body
+      - best
+      - updated_at
+      - created_at
+      - comments
+      - attachments
       properties:
         id:
           description: ''

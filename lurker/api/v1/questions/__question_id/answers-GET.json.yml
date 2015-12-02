@@ -5,7 +5,8 @@ requestParameters:
   description: ''
   type: object
   additionalProperties: false
-  required: []
+  required:
+  - access_token
   properties:
     access_token:
       description: ''
@@ -19,7 +20,8 @@ responseParameters:
   description: ''
   type: object
   additionalProperties: false
-  required: []
+  required:
+  - answers
   properties:
     answers:
       type: array
@@ -27,7 +29,14 @@ responseParameters:
         description: ''
         type: object
         additionalProperties: false
-        required: []
+        required:
+        - id
+        - question_id
+        - user_id
+        - body
+        - best
+        - updated_at
+        - created_at
         properties:
           id:
             description: ''

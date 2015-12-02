@@ -39,7 +39,13 @@ responseParameters:
       description: ''
       type: object
       additionalProperties: false
-      required: []
+      required:
+      - id
+      - user_id
+      - title
+      - body
+      - updated_at
+      - created_at
       properties:
         id:
           description: ''

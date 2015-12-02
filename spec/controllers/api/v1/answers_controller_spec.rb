@@ -29,36 +29,8 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
 
       before { get :show, question_id: question, id: answer, format: :json, access_token: access_token.token }
 
-      %w(id body question_id user_id created_at updated_at).each do |attr|
-        it "contains #{attr}" do
-          expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answer/#{attr}")
-        end
-      end
-
       it 'returns success code ' do
         expect(response).to be_success
-      end
-
-      context 'comments' do
-        it 'included in answer object' do
-          expect(response.body).to have_json_size(1).at_path("answer/comments")
-        end
-
-        %w(id body created_at updated_at).each do |attr|
-          it "comment object contains #{attr}" do
-            expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("answer/comments/0/#{attr}")
-          end
-        end
-      end
-
-      context 'attachments' do
-        it 'included in answer object' do
-          expect(response.body).to have_json_size(1).at_path("answer/attachments")
-        end
-
-        it "attachment object contains file" do
-          expect(response.body).to be_json_eql(attachment.send(:file).to_json).at_path("answer/attachments/0/file")
-        end
       end
     end
   end
@@ -86,12 +58,6 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
 
       it 'returns answers' do
         expect(response.body).to be_json_eql(answers.to_json).at_path('answers')
-      end
-
-       %w(id body user_id created_at updated_at).each do |attr|
-        it "contains #{attr}" do
-          expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answers/0/#{attr}")
-        end
       end
     end
   end
