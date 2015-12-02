@@ -31,17 +31,6 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
         expect(response).to be_success
       end
 
-      context 'comments' do
-        it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path("question/comments")
-        end
-      end
-
-      context 'attachments' do
-        it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path("question/attachments")
-        end
-      end
     end
   end
 
