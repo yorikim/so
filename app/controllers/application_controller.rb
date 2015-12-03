@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
       flash[:error] = exception.message
       render exception.action
     elsif request.format == 'application/json'
-      render json: exception.subject.errors.full_messages, status: :unauthorized
+      render json: {errors: exception.message}, status: :forbidden
     else
       redirect_to root_path, alert: exception.message
     end

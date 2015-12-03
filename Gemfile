@@ -34,6 +34,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'active_model_serializers'
+gem 'oj'
+gem 'oj_mimic_json'
+
 gem 'carrierwave'
 gem 'slim-rails'
 gem 'cocoon'
@@ -66,6 +70,10 @@ group :development, :test do
 
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+
+  gem 'lurker'
+  gem 'kramdown'
+  gem 'pdfkit'
 end
 
 group :test do

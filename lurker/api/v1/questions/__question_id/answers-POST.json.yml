@@ -1,0 +1,94 @@
+---
+description: answer creation
+prefix: answers management
+requestParameters:
+  description: ''
+  type: object
+  additionalProperties: false
+  required:
+  - answer
+  properties:
+    answer:
+      description: ''
+      type: object
+      additionalProperties: false
+      required:
+      - bdy
+      properties:
+        body:
+          description: ''
+          type: string
+          example: Answer body 33
+    access_token:
+      description: ''
+      type: string
+      example: 80d1133caae319abf39992c9dca1ddbbb87d5af23eab137153d1d9f516a54df9
+responseCodes:
+- status: 201
+  successful: true
+  description: ''
+responseParameters:
+  description: ''
+  type: object
+  additionalProperties: false
+  required:
+  - answer
+  properties:
+    answer:
+      description: ''
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - question_id
+      - user_id
+      - body
+      - best
+      - updated_at
+      - created_at
+      - comments
+      - attachments
+      properties:
+        id:
+          description: ''
+          type: integer
+          example: 235
+        question_id:
+          description: ''
+          type: integer
+          example: 426
+        user_id:
+          description: ''
+          type: integer
+          example: 2763
+        body:
+          description: ''
+          type: string
+          example: Answer body 33
+        best:
+          description: ''
+          type: boolean
+          example: false
+        updated_at:
+          description: ''
+          type: string
+          example: '2015-12-01T17:28:29.384Z'
+          format: date-time
+        created_at:
+          description: ''
+          type: string
+          example: '2015-12-01T17:28:29.384Z'
+          format: date-time
+        comments:
+          type: array
+          items: []
+        attachments:
+          type: array
+          items: []
+extensions:
+  method: POST
+  path_info: "/api/v1/questions/426/answers.json"
+  path_params:
+    controller: api/v1/answers
+    action: create
+    question_id: '426'
