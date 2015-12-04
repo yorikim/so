@@ -7,14 +7,26 @@ RSpec.describe CommentsController, type: :controller do
     let!(:answer) { create(:answer) }
 
     context 'with valid attributes' do
-      it 'should add comment to the question' do
-        expect { post :create, question_id: question, comment: attributes_for(:question_comment), format: :json }.to change(question.comments, :count).by(1)
-        should respond_with(201)
+      context 'question' do
+        let(:request) { post :create, question_id: question, comment: attributes_for(:question_comment), format: :json }
+
+        it 'should add comment to the question' do
+          expect { request }.to change(question.comments, :count).by(1)
+          should respond_with(201)
+        end
+
+        it_behaves_like 'publicable controller', /^\/questions\/\d+\/comments\/new$/
       end
 
-      it 'should add comment to the answer' do
-        expect { post :create, answer_id: answer, comment: attributes_for(:answer_comment), format: :json }.to change(answer.comments, :count).by(1)
-        should respond_with(201)
+      context 'question' do
+        let(:request) { post :create, answer_id: answer, comment: attributes_for(:answer_comment), format: :json }
+
+        it 'should add comment to the answer' do
+          expect { request }.to change(answer.comments, :count).by(1)
+          should respond_with(201)
+        end
+
+        it_behaves_like 'publicable controller', /^\/questions\/\d+\/answers\/comments\/new$/
       end
     end
 

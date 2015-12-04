@@ -1,10 +1,12 @@
 require 'rails_helper'
 
-shared_examples_for 'voteable' do
+shared_examples_for 'votable model' do
   let(:model) { described_class }
   let(:model_sym) { model.to_s.underscore.to_sym }
   let(:model_object) { create(model_sym) }
   let(:user) { create(:user) }
+
+  it { should have_many(:votes).dependent(:destroy) }
 
   it 'is not able change value until parent is a new record' do
     new_object = model.new

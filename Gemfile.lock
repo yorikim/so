@@ -361,6 +361,7 @@ DEPENDENCIES
   rails (= 4.2.3)
   remotipart
   responders (~> 2.0)
+  rspec-mocks
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
