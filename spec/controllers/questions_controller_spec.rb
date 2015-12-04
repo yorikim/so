@@ -67,14 +67,18 @@ RSpec.describe QuestionsController, type: :controller do
     login_user
 
     context 'with valid attributes' do
+      let(:request) { post :create, question: attributes_for(:question) }
+
       it 'creates a new question' do
-        expect { post :create, question: attributes_for(:question) }.to change(@user.questions, :count).by(1)
+        expect { request }.to change(@user.questions, :count).by(1)
       end
 
       it 'redirects to view #show' do
-        post :create, question: attributes_for(:question)
+        request
         should redirect_to question_path(assigns(:question))
       end
+
+      it_behaves_like 'Publicable', '/questions/new'
     end
 
     context 'with invalid attributes' do

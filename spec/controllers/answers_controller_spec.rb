@@ -7,14 +7,18 @@ RSpec.describe AnswersController, type: :controller do
     login_user :user_with_questions
 
     context 'with valid attributes' do
+      let(:request) { post :create, question_id: question, answer: attributes_for(:answer), format: :js }
+
       it 'creates a new answer to the question' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(question.answers, :count).by(1)
+        expect { request }.to change(question.answers, :count).by(1)
       end
 
       it 'render create template' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        request
         should render_template :create
       end
+
+      it_behaves_like 'Publicable', /^\/questions\/\d+\/answers\/new$/
     end
 
     context 'with invalid attributes' do

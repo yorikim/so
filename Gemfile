@@ -74,6 +74,8 @@ group :development, :test do
   gem 'lurker'
   gem 'kramdown'
   gem 'pdfkit'
+
+  gem 'rspec-mocks'
 end
 
 group :test do
