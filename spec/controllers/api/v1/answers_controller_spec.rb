@@ -5,54 +5,11 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
 
   let(:question) { create(:question) }
 
-  describe ' GET /show' do
-    let(:answer) { create(:answer, question: question) }
-
-    context ' unathorized ' do
-      it ' returns 401 status if there is no access_token ' do
-        get :show, question_id: question, id: answer, format: :json
-        should respond_with 401
-      end
-
-      it ' returns 401 status if access_token is invalid ' do
-        get :show, question_id: question, id: answer, format: :json, access_token: ' 1234 '
-        should respond_with 401
-      end
-    end
-
-    context ' authorized ', :lurker do
-      let(:me) { create(:user) }
-      let(:access_token) { create(:access_token, resource_owner_id: me.id) }
-      let(:answer) { create(:answer, question: question) }
-      let!(:comment) { create(:answer_comment, commentable: answer) }
-      let!(:attachment) { create(:answer_attachment, attachable: answer) }
-
-      before { get :show, question_id: question, id: answer, format: :json, access_token: access_token.token }
-
-      it 'returns success code ' do
-        expect(response).to be_success
-      end
-    end
-  end
-
   describe ' GET /index ' do
-    context ' unathorized ' do
-      it ' returns 401 status if there is no access_token ' do
-        get :index, question_id: question, format: :json
-        should respond_with 401
-      end
-
-      it ' returns 401 status if access_token is invalid ' do
-        get :index, question_id: question, format: :json, access_token: ' 1234 '
-        should respond_with 401
-      end
-    end
-
     context ' authorized ', :lurker do
       let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
       let!(:answers) { create_list(:answer, 5, question: question) }
-      let(:answer) { answers.first }
 
       before { get :index, question_id: question, format: :json, access_token: access_token.token }
 
@@ -63,18 +20,6 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
   end
 
   describe 'POST /create' do
-    context ' unathorized ' do
-      it ' returns 401 status if there is no access_token ' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :json, access_token: ' 1234 '
-        should respond_with 401
-      end
-
-      it ' returns 401 status if access_token is invalid ' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :json, access_token: ' 1234 '
-        should respond_with 401
-      end
-    end
-
     context ' authorized ' do
       let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
@@ -82,11 +27,6 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
       context 'with valid attributes', :lurker do
         it 'creates a new answer' do
           expect { post :create, question_id: question, answer: attributes_for(:answer), format: :json, access_token: access_token.token }.to change(question.answers, :count).by(1)
-        end
-
-        it 'returns success code ' do
-          post :create, question_id: question, answer: attributes_for(:answer), format: :json, access_token: access_token.token
-          expect(response).to be_success
         end
 
         it 'assigns to user' do
@@ -107,4 +47,19 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
       end
     end
   end
+
+  def do_request_show(options = {})
+    answer = create(:answer, question: question)
+    get :show, {question_id: question, id: answer, format: :json}.merge(options)
+  end
+
+  def do_request_index(options = {})
+    get :index, {question_id: question, format: :json}.merge(options)
+  end
+
+  def do_request_create(options = {})
+    post :create, {question_id: question, answer: attributes_for(:answer), format: :json}.merge(options)
+  end
+
+  it_behaves_like 'API Authenticable'
 end
