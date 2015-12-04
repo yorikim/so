@@ -6,12 +6,11 @@ RSpec.describe Question, type: :model do
 
   it { should have_many(:answers).dependent(:destroy) }
   it { should belong_to(:user) }
-  it { should have_many(:attachments).dependent(:destroy) }
-  it { should have_many(:votes).dependent(:destroy) }
-  it { should have_many(:comments).dependent(:destroy) }
 
 
   describe Question do
-    it_behaves_like 'voteable'
+    it_behaves_like 'votable model'
+    it_behaves_like 'attachable model'
+    it_behaves_like 'commentable model'
   end
 end

@@ -15,7 +15,7 @@ RSpec.describe CommentsController, type: :controller do
           should respond_with(201)
         end
 
-        it_behaves_like 'Publicable', /^\/questions\/\d+\/comments\/new$/
+        it_behaves_like 'publicable controller', /^\/questions\/\d+\/comments\/new$/
       end
 
       context 'question' do
@@ -26,7 +26,7 @@ RSpec.describe CommentsController, type: :controller do
           should respond_with(201)
         end
 
-        it_behaves_like 'Publicable', /^\/questions\/\d+\/answers\/comments\/new$/
+        it_behaves_like 'publicable controller', /^\/questions\/\d+\/answers\/comments\/new$/
       end
     end
 

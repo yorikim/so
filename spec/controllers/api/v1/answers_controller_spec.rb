@@ -5,6 +5,22 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
 
   let(:question) { create(:question) }
 
+  def do_request_show(options = {})
+    answer = create(:answer, question: question)
+    get :show, {question_id: question, id: answer, format: :json}.merge(options)
+  end
+
+  def do_request_index(options = {})
+    get :index, {question_id: question, format: :json}.merge(options)
+  end
+
+  def do_request_create(options = {})
+    post :create, {question_id: question, answer: attributes_for(:answer), format: :json}.merge(options)
+  end
+
+  it_behaves_like 'API Authenticable controller'
+
+
   describe ' GET /index ' do
     context ' authorized ', :lurker do
       let(:me) { create(:user) }
@@ -47,19 +63,4 @@ RSpec.describe Api::V1::AnswersController, type: :controller do
       end
     end
   end
-
-  def do_request_show(options = {})
-    answer = create(:answer, question: question)
-    get :show, {question_id: question, id: answer, format: :json}.merge(options)
-  end
-
-  def do_request_index(options = {})
-    get :index, {question_id: question, format: :json}.merge(options)
-  end
-
-  def do_request_create(options = {})
-    post :create, {question_id: question, answer: attributes_for(:answer), format: :json}.merge(options)
-  end
-
-  it_behaves_like 'API Authenticable'
 end

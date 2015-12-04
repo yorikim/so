@@ -1,4 +1,4 @@
-shared_examples "API Authenticable" do |request, action, options = {}|
+shared_examples "API Authenticable controller" do
   let(:user) { create(:user) }
   let(:access_token) { create(:access_token, resource_owner_id: user.id) }
 

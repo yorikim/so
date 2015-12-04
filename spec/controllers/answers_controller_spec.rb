@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  it_behaves_like 'votable controller', Answer
+
   let!(:question) { create(:question) }
 
   describe 'POST #create' do
@@ -18,7 +20,7 @@ RSpec.describe AnswersController, type: :controller do
         should render_template :create
       end
 
-      it_behaves_like 'Publicable', /^\/questions\/\d+\/answers\/new$/
+      it_behaves_like 'publicable controller', /^\/questions\/\d+\/answers\/new$/
     end
 
     context 'with invalid attributes' do
@@ -127,62 +129,6 @@ RSpec.describe AnswersController, type: :controller do
     it 'not remove foreign answer' do
       expect { delete :destroy, id: foreign_answer, format: :js }.to_not change(Answer, :count)
       should render_template :destroy
-    end
-  end
-
-  describe 'POST #vote_up' do
-    let(:user) { create(:user) }
-    let(:question) { create(:question) }
-
-    let!(:own_answer) { create(:answer, question: question, user: user) }
-    let!(:foreign_answer) { create(:answer, question: question) }
-
-    before { sign_in user }
-
-    it 'increase vote value for the foreign answer' do
-      post :vote_up, id: foreign_answer
-      foreign_answer.reload
-      expect(foreign_answer.vote_value).to eq 1
-    end
-
-    it 'response JSON object' do
-      post :vote_up, id: foreign_answer
-
-      result = JSON.parse(response.body)
-      expect(result['vote_value']).to eq 1
-      expect(result['vote_status']).to eq 1
-    end
-
-    it 'vote up the own question' do
-      expect { post :vote_up, id: own_answer }.to_not change(Vote, :count)
-    end
-  end
-
-  describe 'POST #vote_down' do
-    let(:user) { create(:user) }
-    let(:question) { create(:question) }
-
-    let!(:own_answer) { create(:answer, question: question, user: user) }
-    let!(:foreign_answer) { create(:answer, question: question) }
-
-    before { sign_in user }
-
-    it 'decrease vote value for the foreign answer' do
-      post :vote_down, id: foreign_answer
-      foreign_answer.reload
-      expect(foreign_answer.vote_value).to eq -1
-    end
-
-    it 'response JSON object' do
-      post :vote_down, id: foreign_answer
-
-      result = JSON.parse(response.body)
-      expect(result['vote_value']).to eq -1
-      expect(result['vote_status']).to eq -1
-    end
-
-    it 'vote down the own question' do
-      expect { post :vote_down, id: own_answer }.to_not change(Vote, :count)
     end
   end
 end

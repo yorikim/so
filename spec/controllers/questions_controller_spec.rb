@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  it_behaves_like 'votable controller', Question
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
@@ -78,7 +80,7 @@ RSpec.describe QuestionsController, type: :controller do
         should redirect_to question_path(assigns(:question))
       end
 
-      it_behaves_like 'Publicable', '/questions/new'
+      it_behaves_like 'publicable controller', '/questions/new'
     end
 
     context 'with invalid attributes' do
@@ -90,127 +92,6 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: attributes_for(:invalid_question)
         should render_template :new
       end
-    end
-  end
-
-  describe 'PATCH #update' do
-    login_user :user
-    let(:question) { create(:question, user: @user) }
-    let(:foreign_question) { create(:question) }
-
-    context 'with valid attributes' do
-      before { patch :update, id: question, question: {title: 'new title', body: 'new body'}, format: :js }
-
-      it 'assings the requested question to @question' do
-        expect(assigns(:question)).to eq question
-      end
-
-      it 'assigns to user' do
-        expect(assigns(:question).user).to eq @user
-      end
-
-      it 'edit the question' do
-        question.reload
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
-      end
-
-      it 'render template update' do
-        should render_template :update
-      end
-    end
-
-    context 'with invalid attributes' do
-      before { patch :update, id: question, question: {title: nil, body: nil}, format: :js }
-
-      it 'edit the question' do
-        question.reload
-
-        expect(question.title).to_not eq nil
-        expect(question.body).to_not eq nil
-      end
-
-      it 'render template edit' do
-        should render_template :update
-      end
-    end
-
-    it 'trying to update the foreign question' do
-      patch :update, id: foreign_question, question: {title: 'new title', body: 'new body'}, format: :js
-      foreign_question.reload
-
-      expect(question.title).to_not eq 'new title'
-      expect(question.body).to_not eq 'new body'
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    login_user(:user_with_questions)
-    let(:question) { @user.questions.first }
-
-    it 'remove own question' do
-      expect { delete :destroy, id: question }.to change(@user.questions, :count).by(-1)
-      should redirect_to questions_path
-    end
-
-    let!(:another_user) { create(:user_with_questions) }
-    let(:foreign_question) { another_user.questions.first }
-
-    it 'not remove foreign question' do
-      expect { delete :destroy, id: foreign_question }.to_not change(Question, :count)
-      should redirect_to root_path
-    end
-  end
-
-  describe 'POST #vote_up' do
-    let(:user) { create(:user) }
-    let(:own_question) { create(:question, user: user) }
-    let(:foreign_question) { create(:question) }
-
-    before { sign_in user }
-
-    it 'increase vote value for the foreign question' do
-      post :vote_up, id: foreign_question
-      foreign_question.reload
-      expect(foreign_question.vote_value).to eq 1
-    end
-
-    it 'response JSON object' do
-      post :vote_up, id: foreign_question
-
-      result = JSON.parse(response.body)
-      expect(result['vote_value']).to eq 1
-      expect(result['vote_status']).to eq 1
-    end
-
-    it 'vote up the own question' do
-      expect { post :vote_up, id: own_question }.to_not change(Vote, :count)
-    end
-  end
-
-  describe 'POST #vote_down' do
-    let(:user) { create(:user) }
-    let(:own_question) { create(:question, user: user) }
-    let(:foreign_question) { create(:question) }
-
-    before { sign_in user }
-
-    it 'decrease vote value for the foreign question' do
-      post :vote_down, id: foreign_question
-      foreign_question.reload
-      expect(foreign_question.vote_value).to eq -1
-    end
-
-    it 'response JSON object' do
-      post :vote_down, id: foreign_question
-
-      result = JSON.parse(response.body)
-      expect(result['vote_value']).to eq -1
-      expect(result['vote_status']).to eq -1
-    end
-
-    it 'vote down the own question' do
-      expect { post :vote_down, id: own_question }.to_not change(Vote, :count)
     end
   end
 end

@@ -3,6 +3,22 @@ require 'rails_helper'
 RSpec.describe Api::V1::QuestionsController, type: :controller do
   include Devise::TestHelpers
 
+  def do_request_show(options = {})
+    question = create(:question)
+    get :show, {id: question, format: :json}.merge(options)
+  end
+
+  def do_request_ndex(options = {})
+    get :index, {format: :json}.merge(options)
+  end
+
+  def do_request_create(options = {})
+    post :create, {question: attributes_for(:question), format: :json}.merge(options)
+  end
+
+  it_behaves_like 'API Authenticable controller'
+
+
   describe ' GET /index ' do
     context ' authorized ', :lurker do
       let(:me) { create(:user) }
@@ -41,19 +57,4 @@ RSpec.describe Api::V1::QuestionsController, type: :controller do
       end
     end
   end
-
-  def do_request_show(options = {})
-    question = create(:question)
-    get :show, {id: question, format: :json}.merge(options)
-  end
-
-  def do_request_ndex(options = {})
-    get :index, {format: :json}.merge(options)
-  end
-
-  def do_request_create(options = {})
-    post :create, {question: attributes_for(:question), format: :json}.merge(options)
-  end
-
-  it_behaves_like 'API Authenticable'
 end
