@@ -10,6 +10,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       let(:request) { post :create, question_id: question, answer: attributes_for(:answer), format: :js }
+      let(:notify_subject) { question }
 
       it 'creates a new answer to the question' do
         expect { request }.to change(question.answers, :count).by(1)
@@ -20,7 +21,16 @@ RSpec.describe AnswersController, type: :controller do
         should render_template :create
       end
 
+      it 'notifies author' do
+        message_delivery = instance_double(ActionMailer::MessageDelivery)
+        expect(NotifyMailer).to receive(:notify_author).with(question.user).and_return(message_delivery)
+        expect(message_delivery).to receive(:deliver_later)
+
+        request
+      end
+
       it_behaves_like 'publicable controller', /^\/questions\/\d+\/answers\/new$/
+      it_behaves_like 'notifiable controller'
     end
 
     context 'with invalid attributes' do

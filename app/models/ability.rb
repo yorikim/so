@@ -30,5 +30,7 @@ class Ability
     cannot :vote, [Question, Answer], user: user
 
     can :me, User, id: user.id
+
+    can :subscribe, Question
   end
 end

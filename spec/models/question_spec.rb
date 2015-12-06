@@ -7,10 +7,10 @@ RSpec.describe Question, type: :model do
   it { should have_many(:answers).dependent(:destroy) }
   it { should belong_to(:user) }
 
-
   describe Question do
     it_behaves_like 'votable model'
     it_behaves_like 'attachable model'
     it_behaves_like 'commentable model'
+    it_behaves_like 'subscribable model'
   end
 end

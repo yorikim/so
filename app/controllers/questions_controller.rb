@@ -1,17 +1,20 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :destroy, :vote_up, :vote_down]
+  before_action :authenticate_user!, only: [:new, :create, :destroy, :vote_up, :vote_down, :subscribe]
 
   include VoteableController
+  include NotifiableController
 
-  before_action :load_question, only: [:show, :update, :destroy, :vote_up, :vote_down]
+
+  before_action :load_question, only: [:show, :update, :destroy, :vote_up, :vote_down, :subscribe]
   before_action :build_answer, only: :show
   before_action :build_comment, only: :show
 
   after_action :build_attachment, only: [:new]
   after_action :public_question, only: :create
+  after_action :notify_followers, only: [:update]
 
   respond_to :html
-  respond_to :js, only: :update
+  respond_to :js, only: [:update, :subscribe]
 
   authorize_resource
 
@@ -40,6 +43,10 @@ class QuestionsController < ApplicationController
     respond_with(@question.destroy)
   end
 
+  def subscribe
+    @question.add_follower!(current_user)
+    respond_with(@question)
+  end
 
   private
 

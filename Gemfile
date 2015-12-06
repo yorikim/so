@@ -54,6 +54,9 @@ gem 'omniauth-twitter'
 # gem 'devise-i18n'
 gem 'cancan'
 
+gem 'sidekiq'
+gem 'whenever', :require => false
+
 gem 'doorkeeper'
 
 gem 'responders', '~> 2.0'

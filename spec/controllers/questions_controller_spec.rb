@@ -94,4 +94,31 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #subscribe' do
+    context 'authenticated user' do
+      login_user
+
+      let!(:question) { create(:question) }
+
+      it 'follows the subject' do
+        expect { post :subscribe, id: question.id, format: :js }.to change { question.followers.count }.by(1)
+        should render_template :subscribe
+      end
+
+      it 'renders template :subscribe' do
+        post :subscribe, id: question.id, format: :js
+        should render_template :subscribe
+      end
+    end
+  end
+
+  context 'POST #update' do
+    login_user
+
+    let(:question) { create(:question, user: @user) }
+    let(:request) { patch :update, id: question, question: attributes_for(:question), format: :js }
+
+    it_behaves_like 'notifiable controller'
+  end
 end

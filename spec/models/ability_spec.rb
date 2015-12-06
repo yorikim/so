@@ -43,5 +43,7 @@ RSpec.describe Ability, type: :model do
 
     it { should be_able_to :me, user}
     it { should_not be_able_to :me, other}
+
+    it { should be_able_to :subscribe, create(:question)}
   end
 end
