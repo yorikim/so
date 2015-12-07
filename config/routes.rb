@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   concern :subsribable do
     post 'subscribe', on: :member
+    post 'unsubscribe', on: :member
   end
 
   concern :voteable do

@@ -2,12 +2,9 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
 
   include VoteableController
-  include NotifiableController
 
   before_action :load_answer, except: [:create]
   before_action :load_question, only: [:create, :make_best]
-  after_action :notify_author, only: [:create]
-  after_action :notify_followers, only: [:create]
 
   after_action :public_answer, only: :create
 
@@ -34,10 +31,6 @@ class AnswersController < ApplicationController
 
 
   private
-
-  def notify_author
-    NotifyMailer.notify_author(@question.user).deliver_later
-  end
 
   def public_answer
     PrivatePub.publish_to "/questions/#{@question.id}/answers/new", answer: @answer.to_json

@@ -3,7 +3,7 @@ class NotifyMailer < ApplicationMailer
     mail to: user.email
   end
 
-  def notify_followers(user)
+  def notify_follower(user)
     mail to: user.email
   end
 end

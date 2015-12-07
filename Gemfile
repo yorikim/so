@@ -89,6 +89,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'database_cleaner'
   gem 'json_spec'
+  gem 'test_after_commit'
 end
 
 gem "letter_opener", :group => :development

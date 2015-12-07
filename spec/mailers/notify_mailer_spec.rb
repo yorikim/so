@@ -19,7 +19,7 @@ RSpec.describe NotifyMailer, type: :mailer do
 
   describe "notify followers" do
     let(:user) { create(:user) }
-    let(:mail) { NotifyMailer.notify_followers(user) }
+    let(:mail) { NotifyMailer.notify_follower(user) }
 
     it "renders the headers" do
       expect(mail.subject).to eq "Notify followers"

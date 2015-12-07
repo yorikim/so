@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
   has_many :answers
   has_many :comments
   has_many :authorizations, dependent: :destroy
-  has_and_belongs_to_many :subscribed_questions, class_name: 'Question'
+  has_many :subscriptions, :dependent => :destroy
+  has_many :subscribed_questions, through: :subscriptions, source: :question#, class_name: 'Question'
 
   accepts_nested_attributes_for :authorizations, reject_if: :all_blank, allow_destroy: true
 

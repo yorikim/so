@@ -10,6 +10,7 @@ require "cancan/matchers"
 require 'lurker/spec_helper'
 require 'sidekiq/testing'
 
+TestAfterCommit.enabled = true
 Sidekiq::Testing.fake!
 
 

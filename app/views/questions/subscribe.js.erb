@@ -4,6 +4,6 @@ $('.question-errors').html('<%= j message %>');
 <% end %>
 <% else %>
 $('.question-container').append('<label>You are successfully subscribed</label>');
-$('.subscribe-question-link').attr('disabled', 'disabled');
-$('.subscribe-question-link').attr('href', 'javascript:none');
+$('.subscribe-question-link').text("Unsubscribe");
+$('.subscribe-question-link').attr('href', "<%= unsubscribe_question_path @question %>");
 <% end %>
