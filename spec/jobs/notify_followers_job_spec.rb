@@ -6,6 +6,6 @@ RSpec.describe NotifyFollowerJob, type: :job do
 
   it 'notifies follower' do
     expect(NotifyMailer).to receive(:notify_follower).with(user).and_call_original
-    NotifyFollowerJob.perform_now(question.followers)
+    NotifyFollowerJob.perform_now(question)
   end
 end

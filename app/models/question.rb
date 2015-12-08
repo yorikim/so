@@ -6,11 +6,12 @@ class Question < ActiveRecord::Base
 
   belongs_to :user
   has_many :answers, dependent: :destroy
-  has_many :subscriptions, :dependent => :destroy
-  has_many :followers, through: :subscriptions, source: :user#, class_name: 'User'
+  has_many :subscriptions, dependent: :destroy
+  has_many :followers, through: :subscriptions, source: :user
 
   validates :user_id, :title, :body, presence: true
 
+  after_create :add_author_to_followers
   after_commit :notify_followers
 
   scope :created_yesterday, -> { where(created_at: (Date.today - 1.day)..Date.today) }
@@ -28,6 +29,16 @@ class Question < ActiveRecord::Base
   end
 
   def remove_follower!(user)
-    followers.delete(user)# if follower?(user)
+    followers.delete(user) if follower?(user)
+  end
+
+  private
+
+  def add_author_to_followers
+    followers << user
+  end
+
+  def question
+    self
   end
 end

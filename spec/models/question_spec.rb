@@ -16,6 +16,15 @@ RSpec.describe Question, type: :model do
   end
 
   describe 'followers' do
+    context 'after create' do
+      let(:user) { create(:user) }
+      let(:question) { create(:question, user: user) }
+
+      it 'adds author to followers ' do
+        expect(question.followers).to eq [user]
+      end
+    end
+
     context 'manage followers' do
       let(:question) { create(:question) }
       let(:user) { create(:user) }

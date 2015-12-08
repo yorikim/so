@@ -23,17 +23,4 @@ RSpec.describe Answer, type: :model do
       question
     end
   end
-
-  describe 'notify author of question' do
-    let(:user) { create(:user) }
-    let!(:question) { create(:question) }
-
-    it 'notifies after create' do
-      message_delivery = instance_double(ActionMailer::MessageDelivery)
-      expect(NotifyMailer).to receive(:notify_author).with(question.user).and_return(message_delivery)
-      expect(message_delivery).to receive(:deliver_later)
-
-      create(:answer, question: question)
-    end
-  end
 end
