@@ -30,5 +30,13 @@ class Ability
     cannot :vote, [Question, Answer], user: user
 
     can :me, User, id: user.id
+
+    can :subscribe, Question do |question|
+      !question.followers.include? user
+    end
+
+    can :unsubscribe, Question do |question|
+      question.followers.include? user
+    end
   end
 end

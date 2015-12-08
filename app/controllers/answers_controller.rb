@@ -5,8 +5,6 @@ class AnswersController < ApplicationController
 
   before_action :load_answer, except: [:create]
   before_action :load_question, only: [:create, :make_best]
-  # before_action only: [:update, :destroy] { check_permissions!(@answer) }
-  # before_action only: [:make_best] { check_permissions!(@question) }
 
   after_action :public_answer, only: :create
 

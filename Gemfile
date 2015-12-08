@@ -54,6 +54,9 @@ gem 'omniauth-twitter'
 # gem 'devise-i18n'
 gem 'cancan'
 
+gem 'sidekiq'
+gem 'whenever', :require => false
+
 gem 'doorkeeper'
 
 gem 'responders', '~> 2.0'
@@ -86,6 +89,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'database_cleaner'
   gem 'json_spec'
+  gem 'test_after_commit'
 end
 
 gem "letter_opener", :group => :development

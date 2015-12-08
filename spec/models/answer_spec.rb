@@ -12,4 +12,15 @@ RSpec.describe Answer, type: :model do
     it_behaves_like 'attachable model'
     it_behaves_like 'commentable model'
   end
+
+  describe 'notify followers' do
+    let(:question) { create(:question) }
+    subject { build(:answer, question: question) }
+
+    it_behaves_like 'notifiable model'
+
+    def subscribed_question
+      question
+    end
+  end
 end

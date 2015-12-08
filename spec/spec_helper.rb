@@ -23,6 +23,7 @@ RSpec.configure do |config|
 
   config.extend ControllerMacros, type: :controller
   config.include FeatureMacros, type: :feature
+  config.include ActiveJob::TestHelper#, type: :feature
 
   config.include(OmniauthMacros)
 

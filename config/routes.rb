@@ -9,6 +9,11 @@ Rails.application.routes.draw do
 
   root 'questions#index'
 
+  concern :subsribable do
+    post 'subscribe', on: :member
+    post 'unsubscribe', on: :member
+  end
+
   concern :voteable do
     post 'vote_up', on: :member
     post 'vote_down', on: :member
@@ -18,7 +23,7 @@ Rails.application.routes.draw do
     resources :comments #, only: [:create]
   end
 
-  resources :questions, concerns: [:voteable, :commentable], except: [:edit], shallow: true do
+  resources :questions, concerns: [:voteable, :commentable, :subsribable], except: [:edit], shallow: true do
     resources :answers, concerns: [:voteable, :commentable], except: [:index, :show, :edit] do
       post 'make_best', on: :member
     end

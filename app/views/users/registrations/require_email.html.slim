@@ -8,11 +8,11 @@ h1 Add Email
   .form-group
     = f.label :email
     .controls
-      = f.text_field :email, :autofocus => true, :value => '', class: 'form-control input-lg'
+      = f.text_field :email, autofocus: true, value: '', class: 'form-control input-lg'
 
   = f.fields_for :authorizations, @user.authorizations.build(@authorization_params) do |a|
     = a.hidden_field :provider
     = a.hidden_field :uid
 
   .form-group
-    = f.submit 'Continue', :class => 'btn btn-primary'
+    = f.submit 'Continue', class: 'btn btn-primary'
