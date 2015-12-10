@@ -32,13 +32,17 @@ class Question < ActiveRecord::Base
     followers.delete(user) if follower?(user)
   end
 
-  private
-
-  def add_author_to_followers
-    followers << user
+  def search_label
+    'Q:'
   end
 
   def question
     self
+  end
+
+  private
+
+  def add_author_to_followers
+    followers << user
   end
 end

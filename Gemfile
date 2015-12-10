@@ -61,6 +61,11 @@ gem 'doorkeeper'
 
 gem 'responders', '~> 2.0'
 
+gem 'mysql2'
+gem 'thinking-sphinx'
+gem "active_attr"
+
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

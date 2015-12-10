@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   root 'questions#index'
+  get 'search' => 'sphinx#search'
 
   concern :subsribable do
     post 'subscribe', on: :member

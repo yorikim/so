@@ -1,0 +1,11 @@
+- @result.each do |row|
+  .row
+    - if row.is_a?(User)
+      span = "#{row.search_label} #{row.email}"
+      br
+    - else
+      = row.question.user.email
+      br
+      = link_to "#{row.search_label} #{row.question.title}", row.question
+      = row.body
+  br

@@ -15,4 +15,8 @@ class Answer < ActiveRecord::Base
     question.answers.update_all({best: false})
     update_attribute(:best, true)
   end
+
+  def search_label
+    'A:'
+  end
 end
