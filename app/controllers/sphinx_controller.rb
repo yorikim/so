@@ -15,8 +15,7 @@ class SphinxController < ApplicationController
   end
 
   def sphinx_index
-    indexes = %w(question answer comment user)
-    @sphinx_index ||= if indexes.include?(@search_query.index_type)
+    @sphinx_index ||= if SearchQuery::INDECIES.include?(@search_query.index_type)
                         Kernel.const_get(@search_query.index_type.capitalize)
                       else
                         ThinkingSphinx
