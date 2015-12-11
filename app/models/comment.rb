@@ -3,4 +3,12 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true
 
   validates :body, presence: true
+
+  def search_label
+    'C:'
+  end
+
+  def question
+    commentable.question
+  end
 end

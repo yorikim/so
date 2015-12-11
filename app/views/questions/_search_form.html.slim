@@ -1,0 +1,5 @@
+= form_for SearchQuery.new, url: '/search', method: :get do |f|
+  = f.text_field :q
+  = f.collection_select :index_type, SearchQuery::INDECIES, :itself, :capitalize, include_blank: 'All'
+
+  = f.submit 'Search', class: 'btn'

@@ -46,6 +46,10 @@ class User < ActiveRecord::Base
     self.authorizations.create(provider: auth.provider, uid: auth.uid)
   end
 
+  def search_label
+    "U:"
+  end
+
   private
 
   def self.is_correct_auth(auth)
