@@ -65,6 +65,8 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 gem "active_attr"
 
+gem 'dotenv'
+gem 'dotenv-rails', groups: [:development, :test]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -96,6 +98,15 @@ group :test do
   gem 'json_spec'
   gem 'test_after_commit'
 end
+
+group :development do
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-sidekiq', require: false
+end
+
 
 gem "letter_opener", :group => :development
 
