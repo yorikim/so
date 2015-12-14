@@ -4,8 +4,7 @@
 .heading-block
   h4 Questions
 
-  = render 'search_form'
-  = link_to 'Ask question', new_question_path, class: 'btn btn-secondary'
+  = link_to 'Create question', new_question_path, class: 'btn btn-primary'
 
 .questions
   = render @questions

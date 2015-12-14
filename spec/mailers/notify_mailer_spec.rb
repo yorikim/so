@@ -8,7 +8,7 @@ RSpec.describe NotifyMailer, type: :mailer do
     let(:mail) { NotifyMailer.notify_follower(user) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq "Notify followers"
+      expect(mail.subject).to eq "Notify follower"
       expect(mail.to).to eq [user.email]
       expect(mail.from).to eq ["from@example.com"]
     end

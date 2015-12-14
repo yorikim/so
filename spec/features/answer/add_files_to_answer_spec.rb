@@ -20,7 +20,7 @@ feature 'Add files to the answer' do
 
     click_on 'Create answer'
 
-    expect(page).to have_link 'test1.txt', href: '/uploads/attachment/file/1/test1.txt'
-    expect(page).to have_link 'test2.txt', href: '/uploads/attachment/file/2/test2.txt'
+    expect(page).to have_link 'test1.txt'
+    expect(page).to have_link 'test2.txt'
   end
 end

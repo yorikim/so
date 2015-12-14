@@ -91,6 +91,7 @@ GEM
     childprocess (0.5.8)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
+    cliver (0.3.2)
     cocoon (1.2.6)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -236,6 +237,11 @@ GEM
     pdfkit (0.8.2)
     pg (0.18.2)
     pg (0.18.2-x86-mingw32)
+    poltergeist (1.8.1)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     private_pub (1.0.3)
       faye
     rack (1.6.4)
@@ -435,6 +441,7 @@ DEPENDENCIES
   omniauth-twitter
   pdfkit
   pg
+  poltergeist
   private_pub
   rails (= 4.2.3)
   remotipart

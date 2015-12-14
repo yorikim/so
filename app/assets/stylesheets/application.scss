@@ -1,7 +1,6 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import 'font-awesome';
-@import 'mvpready-admin';
+@import "font-awesome";
 
 .heading-block {
   padding-top: 15px;
@@ -12,12 +11,32 @@
   font-weight: 400;
 
   .question-summary {
-    padding: 12px 0 10px 0;
+    padding: 12px 0 20px 0;
     border-bottom: 1px solid #e0e0e0;
+  }
+
+  .mini-counts {
+    margin-bottom: 4px;
+  }
+
+  .votes-count, .answers-count {
+    display: inline-block;
+    height: 38px;
+    min-width: 38px;
+    margin: 0 3px 0 0;
+    padding: 5px 5px 6px 5px;
+    text-align: center;
   }
 }
 
 .question-container {
+  .question-header {
+    clear: both;
+    padding: 5px 0;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 1em;
+  }
+
   form.edit_question {
     display: none;
   }
@@ -80,15 +99,6 @@
   padding-bottom: 10px;
 
   .answer-content {
-    padding: 20px;
-    margin: 10px 0px;
-    border-width: 1px 1px 1px 5px;
-    border-style: solid;
-    border-color: #EEE;
-    -moz-border-top-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
     border-image: none;
     border-radius: 3px;
 

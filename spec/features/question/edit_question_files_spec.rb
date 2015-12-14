@@ -26,7 +26,7 @@ feature "Edit question's files" do
       all('input[type="file"]').last.set get_correct_filepath("#{Rails.root}/spec/support/fixtures/test2.txt")
       click_on 'Save question'
 
-      expect(page).to_not have_link 'test2.txt', href: '/uploads/attachment/file/2/test2.txt'
+      expect(page).to have_link 'test2.txt', href: '/uploads/attachment/file/2/test2.txt'
     end
   end
 end

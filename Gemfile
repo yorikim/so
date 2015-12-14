@@ -99,6 +99,7 @@ group :test do
   gem 'database_cleaner'
   gem 'json_spec'
   gem 'test_after_commit'
+  gem 'poltergeist'
 end
 
 group :development do

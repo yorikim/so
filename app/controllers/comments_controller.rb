@@ -11,7 +11,6 @@ class CommentsController < ApplicationController
     respond_with(@comment = @commentable.comments.create(comment_params.merge(user: current_user)))
   end
 
-
   private
 
   def public_comment

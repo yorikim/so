@@ -12,18 +12,18 @@ feature 'Create question', %q{
 
     visit questions_path
 
-    click_on 'Ask question'
+    click_on 'Create question'
     fill_in 'question_title', with: 'Test title'
     fill_in 'question_body',  with: 'Test body'
 
-    click_on 'Ask'
+    click_on 'Create'
 
     expect(page).to have_content 'Your question successfully created.'
   end
 
   scenario 'Anonymous user is trying to ask question' do
     visit questions_path
-    click_on 'Ask question'
+    click_on 'Create question'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end

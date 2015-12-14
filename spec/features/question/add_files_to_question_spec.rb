@@ -18,9 +18,9 @@ feature 'Add files to the question' do
 
     all('input[type="file"]').last.set get_correct_filepath("#{Rails.root}/spec/support/fixtures/test2.txt")
 
-    click_on 'Ask'
+    click_on 'Create'
 
-    expect(page).to have_link 'test1.txt', href: '/uploads/attachment/file/1/test1.txt'
-    expect(page).to have_link 'test2.txt', href: '/uploads/attachment/file/2/test2.txt'
+    expect(page).to have_link 'test1.txt'
+    expect(page).to have_link 'test2.txt'
   end
 end
