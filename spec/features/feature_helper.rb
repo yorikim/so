@@ -1,5 +1,7 @@
 require_relative '../rails_helper'
 require 'capybara/email/rspec'
+require 'capybara/poltergeist'
+
 
 RSpec.configure do |config|
   config.include SphinxHelpers, type: :feature
@@ -9,7 +11,7 @@ RSpec.configure do |config|
     ThinkingSphinx::Test.start_with_autostop
   end
 
-  # Capybara.javascript_driver = :webkit
+  Capybara.javascript_driver = :poltergeist
 
   config.include FeatureMacros, type: :feature
 

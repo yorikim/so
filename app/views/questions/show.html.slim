@@ -5,9 +5,9 @@
 = subscribe_to "/questions/#{@question.id}/answers/comments/new"
 = subscribe_to "/questions/#{@question.id}/comments/new"
 
-.question-container data-question-id=@question.id
-  .heading-block
-    h4#question-title = @question.title
+.question-container[data-question-id=@question.id]
+  .question-header
+    h1#question-title = @question.title
 
   .question-content.row
     .vote-container.col-lg-1
@@ -15,44 +15,52 @@
         .vote-up
           = link_to "#{vote_up_question_path(@question)}", class: 'question-vote-up-link', remote: true, method: :post do
             i.fa.fa-sort-asc
+
       span.vote-value = @question.vote_value
+
       - if can?(:vote, @question)
         .vote-down
           = link_to "#{vote_down_question_path(@question)}", class: 'question-vote-down-link', remote: true, method: :post do
             i.fa.fa-sort-desc
 
-    #question-body.content.col-lg-11 = @question.body
-    #question-attachments
-      = render @question.attachments
+    .content.col-lg-11
+      .row
+        #question-body.col-lg-12
+          = @question.body
 
-  - if can?(:manage, @question)
-    = render partial: 'form', locals: {submit_title: 'Save question', remote: true}
+      .row
+        - if can?(:manage, @question)
+          = render partial: 'form', locals: {submit_title: 'Save question', remote: true}
 
-    .question-actions
-      = link_to 'Edit question', '', class: 'btn btn-info edit-question-link', data: {question_id: @question.id}
-      = link_to 'Remove question', question_path(@question), class: 'btn btn-danger remove-question-link', data: {question_id: @question.id}, method: :delete
+        .question-actions
+          - if can?(:manage, @question)
+            = link_to 'Edit question', '', class: 'edit-question-link', data: {question_id: @question.id}
+            = link_to 'Remove question', question_path(@question), class: 'remove-question-link', data: {question_id: @question.id}, method: :delete
+          - if current_user
+            - if @question.follower?(current_user)
+              = link_to 'Unsubscribe', unsubscribe_question_path(@question), class: 'unsubscribe-question-link', remote: true, method: :post
+            - else
+            = link_to 'Subscribe', subscribe_question_path(@question), class: 'subscribe-question-link', remote: true, method: :post
 
-  - if current_user
-    -if @question.follower?(current_user)
-      = link_to 'Unsubscribe', unsubscribe_question_path(@question), class: 'btn btn-info unsubscribe-question-link', remote: true, method: :post
-    else
-      = link_to 'Subscribe', subscribe_question_path(@question), class: 'btn btn-info subscribe-question-link', remote: true, method: :post
-    = link_to 'Add Comment', '', class: 'btn btn-info add-question-comment-link', data: {question_id: @question.id}
-    = render partial: 'comments/form', locals: {comments_path: [@question, @comment], submit_title: 'Create comment'}
+      #question-comments.comments.row
+        span Comments:
+        = render @question.comments
+        - if current_user
+          = link_to 'Add Comment', '', class: 'add-question-comment-link', data: {question_id: @question.id}
+          = render partial: 'comments/form', locals: {comments_path: [@question, @comment], submit_title: 'Create comment'}
 
-  #question-comments.comments
-    = render @question.comments
+      #question-attachments.row
+        span Attachments:
+        ul.attachements
+          = render @question.attachments
 
 
 .heading-block
-  h4#answers-count
-    = @question.answers.count
-    |  answers
+  h4 Answers:
 .answers
   = render @question.answers.order('best desc')
 
-
-- if user_signed_in?
-  .heading-block
-    h4 Add Answer
-    = render partial: 'answers/form', locals: {question: @question, answer: @answer, submit_title: 'Create answer'}
+  - if user_signed_in?
+    .heading-block
+      h4 Add Answer
+      = render partial: 'answers/form', locals: {question: @question, answer: @answer, submit_title: 'Create answer'}
