@@ -5,7 +5,7 @@ class Answer < ActiveRecord::Base
   include Notifiable
 
   belongs_to :user
-  belongs_to :question
+  belongs_to :question, touch: true
 
   after_create :notify_followers
 

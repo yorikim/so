@@ -244,6 +244,8 @@ GEM
       websocket-driver (>= 0.2.0)
     private_pub (1.0.3)
       faye
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -277,6 +279,22 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
     redis (3.2.2)
+    redis-actionpack (4.0.1)
+      actionpack (~> 4)
+      redis-rack (~> 1.5.0)
+      redis-store (~> 1.1.0)
+    redis-activesupport (4.1.5)
+      activesupport (>= 3, < 5)
+      redis-store (~> 1.1.0)
+    redis-rack (1.5.0)
+      rack (~> 1.5)
+      redis-store (~> 1.1.0)
+    redis-rails (4.0.0)
+      redis-actionpack (~> 4)
+      redis-activesupport (~> 4)
+      redis-store (~> 1.1.0)
+    redis-store (1.1.7)
+      redis (>= 2.2)
     ref (2.0.0)
     remotipart (1.2.1)
     responders (2.1.0)
@@ -443,7 +461,9 @@ DEPENDENCIES
   pg
   poltergeist
   private_pub
+  quiet_assets
   rails (= 4.2.3)
+  redis-rails
   remotipart
   responders (~> 2.0)
   rspec-mocks

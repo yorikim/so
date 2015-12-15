@@ -6,7 +6,8 @@
           .vote-up data-answer-id=answer.id
             = link_to vote_up_answer_path(answer), class: 'answer-vote-up-link', data: {answer_id: answer.id}, remote: true, method: :post do
               i.fa.fa-sort-asc
-        span.vote-value = @question.vote_value
+        - cache [answer, :vote] do
+          span.vote-value = @question.vote_value
         - if can?(:vote, answer)
           .vote-down data-answer-id=answer.id
             = link_to vote_down_answer_path(answer), class: 'answer-vote-down-link', remote: true, method: :post do
@@ -21,12 +22,14 @@
     - if can?(:manage, answer)
       = render partial: 'answers/form', locals: {question: nil, answer: answer, submit_title: 'Save answer'}
 
-    .attachments
-      = render answer.attachments
+    - cache [answer, :attachments] do
+      .attachments
+        = render answer.attachments
 
-    .comments
-      = render answer.comments
-      = subscribe_to "/questions/#{@question.id}/comments/new"
+    - cache [answer, :comments] do
+      .comments
+        = render answer.comments
+        = subscribe_to "/questions/#{@question.id}/comments/new"
 
     - if current_user
       = render partial: 'comments/form', locals: {comments_path: [answer, @answer.comments.build], submit_title: 'Create comment'}

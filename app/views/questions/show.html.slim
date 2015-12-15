@@ -6,8 +6,9 @@
 = subscribe_to "/questions/#{@question.id}/comments/new"
 
 .question-container[data-question-id=@question.id]
-  .question-header
-    h1#question-title = @question.title
+  - cache [@question, :title] do
+    .question-header
+      h1#question-title = @question.title
 
   .question-content.row
     .vote-container.col-lg-1
@@ -15,8 +16,8 @@
         .vote-up
           = link_to "#{vote_up_question_path(@question)}", class: 'question-vote-up-link', remote: true, method: :post do
             i.fa.fa-sort-asc
-
-      span.vote-value = @question.vote_value
+      - cache [@question, :vote] do
+        span.vote-value = @question.vote_value
 
       - if can?(:vote, @question)
         .vote-down
@@ -24,9 +25,10 @@
             i.fa.fa-sort-desc
 
     .content.col-lg-11
-      .row
-        #question-body.col-lg-12
-          = @question.body
+      - cache [@question, :body] do
+        .row
+          #question-body.col-lg-12
+            = @question.body
 
       .row
         - if can?(:manage, @question)
@@ -43,22 +45,25 @@
             = link_to 'Subscribe', subscribe_question_path(@question), class: 'subscribe-question-link', remote: true, method: :post
 
       #question-comments.comments.row
-        span Comments:
-        = render @question.comments
+        - cache [@question, :comments] do
+          span Comments:
+          = render @question.comments
         - if current_user
           = link_to 'Add Comment', '', class: 'add-question-comment-link', data: {question_id: @question.id}
           = render partial: 'comments/form', locals: {comments_path: [@question, @comment], submit_title: 'Create comment'}
 
       #question-attachments.row
-        span Attachments:
-        ul.attachements
-          = render @question.attachments
+        - cache [@question, :attachments] do
+          span Attachments:
+          ul.attachements
+            = render @question.attachments
 
 
 .heading-block
   h4 Answers:
 .answers
-  = render @question.answers.order('best desc')
+  - cache [@question, :answers] do
+    = render @question.answers.order('best desc')
 
   - if user_signed_in?
     .heading-block

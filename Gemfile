@@ -69,6 +69,7 @@ gem 'dotenv'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'therubyracer'
 gem 'unicorn'
+gem 'redis-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -88,6 +89,7 @@ group :development, :test do
   gem 'pdfkit'
 
   gem 'rspec-mocks'
+  gem 'quiet_assets'
 end
 
 group :test do
